@@ -4,7 +4,7 @@ site_url: https://matrig.github.io/minicookiecutter
 site_description: A minimalist cookiecutter template for Python projects that use uv for its dependency management
 site_author: Mattia Rigotti
 edit_uri: edit/main/docs/
-project_name: matrig/minicookiecutter
+repo_name: matrig/minicookiecutter
 copyright: Maintained by Mattia Rigotti
 
 nav:
