@@ -22,10 +22,10 @@ To enable your documentation on GitHub, first navigate to `Settings > Actions > 
 
 Then, create a new release for your project going to `https://github.com/<username>/<repository-name>/releases/new`. Give your release a title, and add a new tag in the form `*.*.*` where the `*`'s are alphanumeric. To finish, press `Publish release`.
 
-Then, in your repository, navigate to `Settings > Code and Automation > Pages`. If you successfully created a new release,
-you should see a notification saying ` Your site is ready to be published at https://<author_github_handle>.github.io/<project_name>/`.
+Then, in your repository, navigate to `Settings > Code and Automation > Pages`.
+If you successfully created a new release with documentation, you should see a notification saying ` Your site is ready to be published at https://<author_github_handle>.github.io/<project_name>/`.
+To deploy your documentation, under `Branch`, select the branch `gh-pages` and `/(root)`. Your documentation should then be live within a few minutes.
 
-To finalize deploying your documentation, under `Source`, select the branch `gh-pages`. Your documentation should then be live within a few minutes.
 
 ## Documenting docstrings
 
