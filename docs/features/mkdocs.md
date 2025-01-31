@@ -18,7 +18,9 @@ This command will generate and build your documentation, and start the server lo
 
 ## Enabling the documentation on GitHub
 
-To enable your documentation on GitHub, first navigate to `Settings > Actions > General` in your repository, and under `Workflow permissions` select `Read and write permissions`
+To enable your documentation on GitHub, first navigate to `Settings > Actions > General` in your repository, and under `Workflow permissions` select `Read and write permissions`.
+
+Then, create a new release for your project going to `https://github.com/<username>/<repository-name>/releases/new`. Give your release a title, and add a new tag in the form `*.*.*` where the `*`'s are alphanumeric. To finish, press `Publish release`.
 
 Then, in your repository, navigate to `Settings > Code and Automation > Pages`. If you successfully created a new release,
 you should see a notification saying ` Your site is ready to be published at https://<author_github_handle>.github.io/<project_name>/`.
@@ -27,9 +29,7 @@ To finalize deploying your documentation, under `Source`, select the branch `gh-
 
 ## Documenting docstrings
 
-The generated project also converts all
-your docstrings into legible documentation. By default, the project is
-configured to work with
+The generated project also converts all your docstrings into legible documentation. By default, the project is configured to work with
 [google](https://google.github.io/styleguide/pyguide.html) style
 docstrings.
 
