@@ -43,7 +43,6 @@ git push -u origin main
 
 ### Step 5: Set Up Your Development Environment
 
-
 Install the environment with:
 
 ```bash
@@ -62,6 +61,7 @@ git add .
 git commit -m 'Fix formatting issues'
 git push origin main
 ```
+
 ## Step 7: Enable your documentation
 
 To enable your documentation on GitHub, first navigate to `Settings > Actions > General` in your repository, and under `Workflow permissions` select `Read and write permissions`.

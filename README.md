@@ -15,7 +15,6 @@ It supports the following features:
 - Documentation with [MkDocs](https://www.mkdocs.org/)
 - Compatibility testing for multiple versions of Python with [tox-uv](https://github.com/tox-dev/tox-uv)
 
-
 ---
 
 <p align="center">
@@ -31,6 +30,7 @@ On your local machine, navigate to the directory in which you want to create a p
 ```bash
 uvx cookiecutter https://github.com/matrig/minicookiecutter.git
 ```
+
 ## Acknowledgements
 
-This project is based on  <https://github.com/patrickmineault/true-neutral-cookiecutter> and <https://github.com/fpgmaas/cookiecutter-uv>.
+This project is based on <https://github.com/patrickmineault/true-neutral-cookiecutter> and <https://github.com/fpgmaas/cookiecutter-uv>.

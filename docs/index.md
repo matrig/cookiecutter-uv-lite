@@ -15,7 +15,6 @@ This is a minimalistic Cookiecutter template that can be used to initiate a Pyth
 - Documentation with [MkDocs](https://www.mkdocs.org/)
 - Compatibility testing for multiple versions of Python with [tox-uv](https://github.com/tox-dev/tox-uv)
 
-
 ## Quickstart
 
 On your local machine, navigate to the directory in which you want to create a project directory, and run the following command:

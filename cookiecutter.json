@@ -1,8 +1,8 @@
 {
-    "author": "Mattia Rigotti",
-    "author_github_handle": "matrig",
-    "project_name": "my-project",
-    "package_name": "{{cookiecutter.project_name|lower|replace('-', '_')}}",
-    "project_description": "A minimal research cookie cutter using uv dependency management",
-    "mkdocs": ["y", "n"]
+  "author": "Mattia Rigotti",
+  "author_github_handle": "matrig",
+  "project_name": "my-project",
+  "package_name": "{{cookiecutter.project_name|lower|replace('-', '_')}}",
+  "project_description": "A minimal research cookie cutter using uv dependency management",
+  "mkdocs": ["y", "n"]
 }
