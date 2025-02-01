@@ -1,11 +1,13 @@
 # Documentation with MkDocs
 
-If `mkdocs` is set to `"y"`, documentation of your project is
-automatically added using
-[MkDocs](https://www.mkdocs.org/). Next to that, if
-`"include_github_actions"` is set to `"y"`, the documentation is
-automatically deployed to your `gh-pages` branch, and made available at
-`https://<github_handle>.github.io/<project_name>/`.
+If `mkdocs` is set to `"y"`, documentation of your project is automatically added using
+[MkDocs](https://www.mkdocs.org/).
+The documentation can then be  deployed to your `gh-pages` branch, and made available at
+`https://<github_handle>.github.io/<project_name>/` by using the command
+```bash
+make docs-deploy
+```
+(which will deploy the project pages to a branch called `gh-pages`), and following the instructions below on how to enable the documentation on GitHub.
 
 To view the documentation locally, simply run
 
@@ -18,19 +20,13 @@ This command will generate and build your documentation, and start the server lo
 
 ## Enabling the documentation on GitHub
 
-To enable your documentation on GitHub, first navigate to `Settings > Actions > General` in your repository, and under `Workflow permissions` select `Read and write permissions`.
-
-Then, create a new release for your project going to `https://github.com/<username>/<repository-name>/releases/new`. Give your release a title, and add a new tag in the form `*.*.*` where the `*`'s are alphanumeric. To finish, press `Publish release`.
-
-Then, in your repository, navigate to `Settings > Code and Automation > Pages`.
-If you successfully created a new release with documentation, you should see a notification saying ` Your site is ready to be published at https://<author_github_handle>.github.io/<project_name>/`.
-To deploy your documentation, under `Branch`, select the branch `gh-pages` and `/(root)`. Your documentation should then be live within a few minutes.
+To enable your documentation on GitHub, in your repository, navigate to `Settings > Code and Automation > Pages`.
+Then, under `Branch`, select the branch `gh-pages` and `/(root)`. Your documentation should then be live within a few minutes.
 
 ## Documenting docstrings
 
 The generated project also converts all your docstrings into legible documentation. By default, the project is configured to work with
-[google](https://google.github.io/styleguide/pyguide.html) style
-docstrings.
+[google](https://google.github.io/styleguide/pyguide.html) style docstrings.
 
 An example of a Google style docstring:
 
