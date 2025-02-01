@@ -2,11 +2,13 @@
 
 If `mkdocs` is set to `"y"`, documentation of your project is automatically added using
 [MkDocs](https://www.mkdocs.org/).
-The documentation can then be  deployed to your `gh-pages` branch, and made available at
+The documentation can then be deployed to your `gh-pages` branch, and made available at
 `https://<github_handle>.github.io/<project_name>/` by using the command
+
 ```bash
 make docs-deploy
 ```
+
 (which will deploy the project pages to a branch called `gh-pages`), and following the instructions below on how to enable the documentation on GitHub.
 
 To view the documentation locally, simply run
