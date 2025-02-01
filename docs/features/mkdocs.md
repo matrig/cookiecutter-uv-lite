@@ -26,7 +26,6 @@ Then, in your repository, navigate to `Settings > Code and Automation > Pages`.
 If you successfully created a new release with documentation, you should see a notification saying ` Your site is ready to be published at https://<author_github_handle>.github.io/<project_name>/`.
 To deploy your documentation, under `Branch`, select the branch `gh-pages` and `/(root)`. Your documentation should then be live within a few minutes.
 
-
 ## Documenting docstrings
 
 The generated project also converts all your docstrings into legible documentation. By default, the project is configured to work with
