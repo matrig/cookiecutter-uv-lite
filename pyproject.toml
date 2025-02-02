@@ -8,7 +8,7 @@ keywords = ['cookiecutter', 'template', 'uv']
 requires-python = ">=3.9,<4.0"
 dependencies = [
   "cookiecutter>=2.1.1",
-  "setuptools >= 61.0"
+  "setuptools >= 61.0",
 ]
 classifiers = [
     "Development Status :: 4 - Beta",
@@ -46,7 +46,7 @@ dev = [
 ]
 
 [build-system]
-requires = ["setuptools >= 61.0", "gitpython>=3.1.44"]
+requires = ["setuptools >= 61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]

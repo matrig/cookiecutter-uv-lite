@@ -1,5 +1,6 @@
 {
   "author": "Mattia Rigotti",
+  "author_email": "",
   "author_username": "matrig",
   "project_name": "my-project",
   "package_name": "{{cookiecutter.project_name|lower|replace('-', '_')}}",
