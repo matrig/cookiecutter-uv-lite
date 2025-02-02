@@ -7,6 +7,7 @@
 [![Docs](https://img.shields.io/badge/docs-gh--pages-blue)](https://matrig.github.io/minicookiecutter/)
 
 A minimalistic cookiecutter template for small python projects using `uv` for dependency management.
+
 It supports the following features:
 
 - [uv](https://docs.astral.sh/uv/) for dependency management
