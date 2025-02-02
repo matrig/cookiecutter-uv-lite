@@ -29,7 +29,7 @@ clean-build: ## Clean build artifacts
 {%- if cookiecutter.mkdocs == "y" %}
 
 .PHONY: docs-deploy
-docs-test: ## Deploy the documentation to a branch named gh-pages
+docs-deploy: ## Deploy the documentation to a branch named gh-pages
 	@uv run mkdocs gh-deploy --force
 
 .PHONY: docs-test
