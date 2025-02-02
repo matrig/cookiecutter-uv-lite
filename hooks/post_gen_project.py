@@ -18,7 +18,7 @@ cd {{cookiecutter.project_name}}
 git init -b main
 git add .
 git commit -m "init commit"
-git remote add origin git@github.com:{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}.git
+git remote add origin git@{{cookiecutter.git_server}}:{{cookiecutter.author_username}}/{{cookiecutter.project_name}}.git
 git push -u origin main
 ```
 

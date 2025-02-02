@@ -19,9 +19,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://{{cookiecutter.author_github_handle}}.github.io/{{cookiecutter.project_name}}/"
-Repository = "https://github.com/{{cookiecutter.author_github_handle}}/{{cookiecutter.project_name}}"
-Documentation = "https://{{cookiecutter.author_github_handle}}.github.io/{{cookiecutter.project_name}}/"
+Homepage = "https://{{cookiecutter.author_username}}.github.io/{{cookiecutter.project_name}}/"
+Repository = "https://{{cookiecutter.git_server}}/{{cookiecutter.author_username}}/{{cookiecutter.project_name}}"
+Documentation = "https://{{cookiecutter.author_username}}.github.io/{{cookiecutter.project_name}}/"
 
 [dependency-groups]
 dev = [
