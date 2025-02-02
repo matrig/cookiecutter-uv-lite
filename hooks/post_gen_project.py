@@ -142,7 +142,7 @@ if __name__ == "__main__":
             if input("Do you have a GitHub token? (y/n): ").strip().lower() == "y":
                 token = input("Enter your GitHub token: ")
             else:
-                token = None
+                token = ""
 
             github_repo_created = create_github_repo(
                 "{{cookiecutter.author_username}}", "{{cookiecutter.project_name}}"
