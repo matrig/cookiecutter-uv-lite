@@ -10,19 +10,23 @@ PROJECT_DIRECTORY = os.path.realpath(os.path.curdir)
 HELP_LOCAL_REPO = """
 You can create a git repository later by creating an empty repository named {{cookiecutter.project_name}} on {{cookiecutter.git_server}}
 and running the following commands
+
 >> cd {{cookiecutter.project_name}}
 >> git init -b main
 >> git add .
 >> git commit -m "Initial commit"
+
 """
 
 HELP_REMOTE_REPO = """
 You can create a remote git repository on {{cookiecutter.git_server}} later by
 creating an empty git repository named {{cookiecutter.project_name}} on {{cookiecutter.git_server}}
 and then running the following commands
+
 >> cd {{cookiecutter.project_name}}
 >> git remote add origin git@{{cookiecutter.git_server}}:{{cookiecutter.author_username}}/{{cookiecutter.project_name}}.git
 >> git push -u origin main
+
 """
 
 END_MESSAGE = """
@@ -120,16 +124,15 @@ if __name__ == "__main__":
     subprocess.run(["make", "install"], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603, S607
 
     # Create local git repository?
-    ask_local_repo = input("Do you want to create local git repository? (y/n): ").strip().lower()
-    if ask_local_repo == "y":
+    if "{{cookiecutter.git_repo}}" == "y":
         local_repo_created = create_local_git_repo()
         if local_repo_created:
             print("Git repo was sucessfully created in {{cookiecutter.project_name}}")
 
-    if ask_local_repo != "y" or not local_repo_created:
+    if "{{cookiecutter.git_repo}}" != "y" or not local_repo_created:
         print(HELP_LOCAL_REPO)
 
-    if ask_local_repo == "y" and local_repo_created:
+    if "{{cookiecutter.git_repo}}" == "y" and local_repo_created:
         # Create remote git repository?
         ask_remote_repo = (
             input(

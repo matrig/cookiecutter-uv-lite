@@ -8,7 +8,7 @@ from tests.utils import file_contains_text, run_within_dir
 
 
 def test_bake_project(cookies):
-    result = cookies.bake(extra_context={"project_name": "my-project"})
+    result = cookies.bake(extra_context={"project_name": "my-project", "git_repo": "n"})
 
     assert result.exit_code == 0
     assert result.exception is None
@@ -18,7 +18,7 @@ def test_bake_project(cookies):
 
 def test_using_pytest(cookies, tmp_path):
     with run_within_dir(tmp_path):
-        result = cookies.bake()
+        result = cookies.bake(extra_context={"git_repo": "n"})
 
         # Assert that project was created.
         assert result.exit_code == 0
@@ -34,7 +34,7 @@ def test_using_pytest(cookies, tmp_path):
 
 def test_mkdocs(cookies, tmp_path):
     with run_within_dir(tmp_path):
-        result = cookies.bake(extra_context={"mkdocs": "y"})
+        result = cookies.bake(extra_context={"git_repo": "n", "mkdocs": "y"})
         assert result.exit_code == 0
         assert file_contains_text(f"{result.project_path}/Makefile", "docs:")
         assert os.path.isdir(f"{result.project_path}/docs")
@@ -42,7 +42,7 @@ def test_mkdocs(cookies, tmp_path):
 
 def test_not_mkdocs(cookies, tmp_path):
     with run_within_dir(tmp_path):
-        result = cookies.bake(extra_context={"mkdocs": "n"})
+        result = cookies.bake(extra_context={"git_repo": "n", "mkdocs": "n"})
         assert result.exit_code == 0
         assert not file_contains_text(f"{result.project_path}/Makefile", "docs:")
         assert not os.path.isdir(f"{result.project_path}/docs")
@@ -50,7 +50,7 @@ def test_not_mkdocs(cookies, tmp_path):
 
 def test_tox(cookies, tmp_path):
     with run_within_dir(tmp_path):
-        result = cookies.bake()
+        result = cookies.bake(extra_context={"git_repo": "n"})
         assert result.exit_code == 0
         assert os.path.isfile(f"{result.project_path}/tox.ini")
         assert file_contains_text(f"{result.project_path}/tox.ini", "[tox]")
