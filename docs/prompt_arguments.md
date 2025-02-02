@@ -8,9 +8,13 @@ When running the command `ccp` a prompt will start which enables you to configur
 
 Your full name.
 
-**author_github_handle**
+**author_email**
 
-Your github handle, i.e. `<handle>` in `https://github.com/<handle>`
+Your email address associated with your github account.
+
+**author_username**
+
+Your github handle, i.e. `<handle>` in `https://github.com/<handle>`.
 
 **project_name**
 
@@ -31,6 +35,14 @@ Note: You can set `package_name` to `"src"` to place the Python module inside a 
 **project_description**
 
 A short description of your project.
+
+**git_repo**
+
+`"y"` or `"n"`. Whether you want to create a local git repo for the project.
+
+**git_server**
+
+In case you want to use another git service than github, you can specify it here. The default is `github.com`.
 
 **mkdocs**
 
