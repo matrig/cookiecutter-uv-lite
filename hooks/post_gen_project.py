@@ -40,37 +40,57 @@ def remove_dir(filepath: str) -> None:
     shutil.rmtree(os.path.join(PROJECT_DIRECTORY, filepath))
 
 
+def get_exec_path(executable: str) -> str:
+    """Used to avoid ruff start-process-with-partial-path (S607)"""
+    path = shutil.which(executable)
+    if path is None:
+        raise FileNotFoundError(executable)
+    return path
+
+
 def create_local_git_repo() -> bool:
     try:
         # Init repository:
-        subprocess.run(["git", "init", "-b", "main"], cwd=PROJECT_DIRECTORY, check=True)
+        if os.path.isdir(PROJECT_DIRECTORY):
+            subprocess.run([get_exec_path("git"), "init", "-b", "main"], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
 
         # Configure git user name and email:
         author_name = "{{cookiecutter.author}}"
         author_email = "{{cookiecutter.author_email}}"
-        subprocess.run(["git", "config", "user.name", author_name], cwd=PROJECT_DIRECTORY, check=True)
+        subprocess.run([get_exec_path("git"), "config", "user.name", author_name], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
         if author_email:
-            subprocess.run(["git", "config", "user.email", author_email], cwd=PROJECT_DIRECTORY, check=True)
+            subprocess.run(  # noqa: S603
+                [get_exec_path("git"), "config", "user.email", author_email], cwd=PROJECT_DIRECTORY, check=True
+            )
 
         # First commit:
-        subprocess.run(["git", "add", "."], cwd=PROJECT_DIRECTORY, check=True)
-        subprocess.run(["git", "commit", "-m", "Initial commit"], cwd=PROJECT_DIRECTORY, check=True)
-        return True
+        subprocess.run([get_exec_path("git"), "add", "."], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
+        subprocess.run([get_exec_path("git"), "commit", "-m", "Initial commit"], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
     except subprocess.CalledProcessError as e:
         print(f"Error creating git repository: {e}")
         return False
+    else:
+        return True
 
 
 def create_github_repo(username: str, repo_name: str) -> bool:
     try:
-        subprocess.run(
-            ["curl", "-u", username, "https://api.github.com/user/repos", "-d", '{"name":' + f'"{repo_name}"' + "}"],
+        subprocess.run(  # noqa: S603
+            [
+                get_exec_path("curl"),
+                "-u",
+                username,
+                "https://api.github.com/user/repos",
+                "-d",
+                '{"name":' + f'"{repo_name}"' + "}",
+            ],
             check=True,
         )
-        return True
     except subprocess.CalledProcessError as e:
         print(f"Error creating GitHub repository: {e}")
         return False
+    else:
+        return True
 
 
 def add_remote_git_repo(token: str) -> bool:
@@ -81,12 +101,13 @@ def add_remote_git_repo(token: str) -> bool:
             remote_url = (
                 "git@{{cookiecutter.git_server}}:{{cookiecutter.author_username}}/{{cookiecutter.project_name}}.git"
             )
-        subprocess.run(["git", "remote", "add", "origin", remote_url], cwd=PROJECT_DIRECTORY, check=True)
-        subprocess.run(["git", "push", "-u", "origin", "main"], cwd=PROJECT_DIRECTORY, check=True)
-        return True
+        subprocess.run([get_exec_path("git"), "remote", "add", "origin", remote_url], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
+        subprocess.run([get_exec_path("git"), "push", "-u", "origin", "main"], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
     except subprocess.CalledProcessError as e:
         print(f"Error creating remote git repository: {e}")
         return False
+    else:
+        return True
 
 
 if __name__ == "__main__":
@@ -96,7 +117,7 @@ if __name__ == "__main__":
 
     # Create environment:
     print("Creating environment...")
-    subprocess.run(["make", "install"], cwd=PROJECT_DIRECTORY, check=True)
+    subprocess.run(["make", "install"], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603, S607
 
     # Create local git repository?
     ask_local_repo = input("Do you want to create local git repository? (y/n): ").strip().lower()
