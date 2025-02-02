@@ -38,11 +38,11 @@ theme:
         icon: material/brightness-4
         name: Switch to light mode
   icon:
-    repo: fontawesome/brands/github
+    repo: fontawesome/brands/git-alt
 
 extra:
   social:
-    - icon: fontawesome/brands/github
+    - icon: fontawesome/brands/git-alt
       link: https://{{cookiecutter.git_server}}/{{cookiecutter.author_username}}/{{cookiecutter.project_name}}
 
 markdown_extensions:
