@@ -13,4 +13,5 @@ build                Build wheel file using uv
 clean-build          clean build artifacts
 docs-test            Test if documentation can be built without warnings or errors
 docs                 Build and serve the documentation
+docs-deploy          Deploy the documentation to a branch gh-pages for GitHub pages
 ```

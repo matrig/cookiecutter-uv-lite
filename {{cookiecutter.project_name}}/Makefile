@@ -28,10 +28,6 @@ clean-build: ## Clean build artifacts
 
 {%- if cookiecutter.mkdocs == "y" %}
 
-.PHONY: docs-deploy
-docs-deploy: ## Deploy the documentation to a branch named gh-pages
-	@uv run mkdocs gh-deploy --force
-
 .PHONY: docs-test
 docs-test: ## Test if documentation can be built without warnings or errors
 	@uv run mkdocs build -s
@@ -39,6 +35,10 @@ docs-test: ## Test if documentation can be built without warnings or errors
 .PHONY: docs
 docs: ## Build and serve the documentation
 	@uv run mkdocs serve
+
+.PHONY: docs-deploy
+docs-deploy: ## Deploy the documentation to a branch named gh-pages
+	@uv run mkdocs gh-deploy --force
 
 {%- endif %}
 
