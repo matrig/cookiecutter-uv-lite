@@ -25,6 +25,7 @@ and then running the following commands
 
 >> cd {{cookiecutter.project_name}}
 >> git remote add origin git@{{cookiecutter.git_server}}:{{cookiecutter.author_username}}/{{cookiecutter.project_name}}.git
+>> git branch -M main
 >> git push -u origin main
 
 """
@@ -106,6 +107,7 @@ def add_remote_git_repo(token: str) -> bool:
                 "git@{{cookiecutter.git_server}}:{{cookiecutter.author_username}}/{{cookiecutter.project_name}}.git"
             )
         subprocess.run([get_exec_path("git"), "remote", "add", "origin", remote_url], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
+        subprocess.run([get_exec_path("git"), "branch", "-M", "main"], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
         subprocess.run([get_exec_path("git"), "push", "-u", "origin", "main"], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
     except subprocess.CalledProcessError as e:
         print(f"Error creating remote git repository: {e}")
