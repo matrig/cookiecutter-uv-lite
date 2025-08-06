@@ -84,9 +84,14 @@ def create_local_git_repo() -> bool:
 def create_github_repo(username: str, repo_name: str) -> bool:
     """Create GitHub repository using GitHub CLI if available, otherwise skip."""
     try:
-        # Try using GitHub CLI first (works with both github.com and enterprise)
+        # Set up environment for GitHub CLI to use the correct host
+        env = os.environ.copy()
+        env["GH_HOST"] = "{{cookiecutter.git_server}}"
+
+        # Try using GitHub CLI (works with both github.com and enterprise)
         subprocess.run(  # noqa: S603
             [get_exec_path("gh"), "repo", "create", repo_name, "--public"],
+            env=env,
             check=True,
         )
     except (FileNotFoundError, subprocess.CalledProcessError):
@@ -170,33 +175,15 @@ if __name__ == "__main__":
 
         remote_repo_created = False
         if ask_remote_repo == "y":
-            # Ask if user wants to create a new repository or just add an existing one as remote
-            try:
-                create_repo = (
-                    input(
-                        "Do you want to CREATE a new repository on {{cookiecutter.git_server}} (requires GitHub CLI), or just ADD an existing repository as remote? [create/add]: "
-                    )
-                    .strip()
-                    .lower()
-                )
-            except EOFError:
-                create_repo = "add"
-                print("Non-interactive environment detected. Will try to add existing repository as remote.")
-
-            if create_repo.startswith("c"):  # "create"
-                # Try to create repository using GitHub CLI
-                github_repo_created = create_github_repo(
-                    "{{cookiecutter.author_username}}", "{{cookiecutter.project_name}}"
-                )
-            else:
-                print(
-                    "Skipping repository creation - assuming repository already exists on {{cookiecutter.git_server}}"
-                )
+            # Try to create repository using GitHub CLI (works with both github.com and enterprise)
+            github_repo_created = create_github_repo(
+                "{{cookiecutter.author_username}}", "{{cookiecutter.project_name}}"
+            )
 
             # Set up remote repository (preferring SSH)
             remote_repo_created = add_remote_git_repo(use_ssh=True)
             if remote_repo_created:
-                print("Remote git repository connection was successfully set up on {{cookiecutter.git_server}}")
+                print("Remote git repository was successfully created and set up on {{cookiecutter.git_server}}")
 
         if ask_remote_repo != "y" or not remote_repo_created:
             print(HELP_REMOTE_REPO)
