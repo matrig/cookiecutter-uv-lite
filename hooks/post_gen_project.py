@@ -79,41 +79,54 @@ def create_local_git_repo() -> bool:
 
 
 def create_github_repo(username: str, repo_name: str) -> bool:
+    """Create GitHub repository using GitHub CLI if available, otherwise skip."""
     try:
+        # Try using GitHub CLI first (works with both github.com and enterprise)
         subprocess.run(  # noqa: S603
-            [
-                get_exec_path("curl"),
-                "-u",
-                username,
-                "https://api.github.com/user/repos",
-                "-d",
-                '{"name":' + f'"{repo_name}"' + "}",
-            ],
+            [get_exec_path("gh"), "repo", "create", repo_name, "--public"],
             check=True,
         )
-    except subprocess.CalledProcessError as e:
-        print(f"Error creating GitHub repository: {e}")
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        # GitHub CLI not available or failed
+        print(f"GitHub CLI (gh) not available or failed. Please create repository '{repo_name}' manually.")
         return False
     else:
         return True
 
 
-def add_remote_git_repo(token: str) -> bool:
+def add_remote_git_repo(use_ssh: bool = True) -> bool:
+    """Add remote repository and push, preferring SSH authentication."""
     try:
-        if token:
-            remote_url = f"https://{token}@{{cookiecutter.git_server}}/{{cookiecutter.author_username}}/{{cookiecutter.project_name}}.git"
-        else:
+        if use_ssh:
             remote_url = (
                 "git@{{cookiecutter.git_server}}:{{cookiecutter.author_username}}/{{cookiecutter.project_name}}.git"
             )
+        else:
+            remote_url = (
+                "https://{{cookiecutter.git_server}}/{{cookiecutter.author_username}}/{{cookiecutter.project_name}}.git"
+            )
+
         subprocess.run([get_exec_path("git"), "remote", "add", "origin", remote_url], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
         subprocess.run([get_exec_path("git"), "branch", "-M", "main"], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
-        subprocess.run([get_exec_path("git"), "push", "-u", "origin", "main"], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
+
+        # Try pushing with SSH first, fallback to HTTPS if it fails
+        try:
+            subprocess.run([get_exec_path("git"), "push", "-u", "origin", "main"], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
+        except subprocess.CalledProcessError:
+            if use_ssh:
+                print("SSH push failed, you may need to:")
+                print("1. Add your SSH key to your GitHub account")
+                print(
+                    "2. Or run: git remote set-url origin https://{{cookiecutter.git_server}}/{{cookiecutter.author_username}}/{{cookiecutter.project_name}}.git"
+                )
+                print("3. Then manually push: git push -u origin main")
+            return False
+        else:
+            return True
+
     except subprocess.CalledProcessError as e:
-        print(f"Error creating remote git repository: {e}")
+        print(f"Error setting up remote git repository: {e}")
         return False
-    else:
-        return True
 
 
 if __name__ == "__main__":
@@ -149,20 +162,15 @@ if __name__ == "__main__":
             ask_remote_repo = "n"
             print("Non-interactive environment detected. Skipping remote repository creation.")
 
+        remote_repo_created = False
         if ask_remote_repo == "y":
-            try:
-                if input("Do you have a GitHub token? (y/n): ").strip().lower() == "y":
-                    token = input("Enter your GitHub token: ")
-                else:
-                    token = ""
-            except EOFError:
-                token = ""
-                print("Non-interactive environment detected. Using SSH authentication.")
-
+            # Try to create repository using GitHub CLI (works with both github.com and enterprise)
             github_repo_created = create_github_repo(
                 "{{cookiecutter.author_username}}", "{{cookiecutter.project_name}}"
             )
-            remote_repo_created = add_remote_git_repo(token)
+
+            # Set up remote repository (preferring SSH)
+            remote_repo_created = add_remote_git_repo(use_ssh=True)
             if remote_repo_created:
                 print("Remote git repository was successfully created on {{cookiecutter.git_server}}")
 
