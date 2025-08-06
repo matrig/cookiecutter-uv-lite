@@ -7,5 +7,7 @@
   "project_description": "A minimal cookiecutter using uv for dependency management",
   "git_repo": ["y", "n"],
   "git_server": "github.com",
-  "mkdocs": ["y", "n"]
+  "mkdocs": ["y", "n"],
+  "github_actions": ["y", "n"],
+  "codecov": ["y", "n"]
 }

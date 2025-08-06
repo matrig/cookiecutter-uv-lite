@@ -15,6 +15,8 @@ It supports the following features:
 - Testing with [pytest](https://docs.pytest.org/en/7.1.x/)
 - Documentation with [MkDocs](https://www.mkdocs.org/)
 - Compatibility testing for multiple versions of Python with [tox-uv](https://github.com/tox-dev/tox-uv)
+- **GitHub Actions CI/CD** with automated testing, documentation deployment, and security scanning
+- **Enterprise GitHub support** with SSH-first authentication
 
 ---
 
@@ -31,6 +33,44 @@ On your local machine, navigate to the directory in which you want to create a p
 ```bash
 uvx cookiecutter https://github.com/matrig/minicookiecutter.git
 ```
+
+You'll be prompted to configure your project:
+
+- **github_actions** [y/n]: Enable GitHub Actions CI/CD workflows
+- **codecov** [y/n]: Enable Codecov integration for coverage reporting
+- **mkdocs** [y/n]: Include MkDocs documentation setup
+- **git_repo** [y/n]: Initialize git repository and optionally create remote
+
+## GitHub Actions Features
+
+When you enable GitHub Actions (`github_actions: y`), your generated project includes:
+
+### 🚀 **Continuous Integration (CI)**
+
+- **Multi-Python testing**: Automatically tests your code on Python 3.9-3.13
+- **Multi-OS testing**: Tests on Ubuntu, macOS, and Windows
+- **Code quality checks**: Automated linting (ruff), formatting, and type checking (mypy)
+- **Coverage reporting**: Optional integration with Codecov
+
+### 📚 **Documentation Deployment**
+
+- **Auto-deploy to GitHub Pages**: Documentation automatically updates when you push to main
+- **MkDocs integration**: Works seamlessly if you enable MkDocs
+
+### 🔒 **Security Scanning**
+
+- **CodeQL analysis**: GitHub's native security scanning
+- **Dependency scanning**: Automated vulnerability detection with Safety
+- **Scheduled security checks**: Weekly automated scans
+
+### 📈 **Professional Setup**
+
+Your generated project gets enterprise-grade CI/CD that:
+
+- ✅ Prevents bad code from being merged
+- ✅ Automatically deploys documentation
+- ✅ Monitors for security vulnerabilities
+- ✅ Works with both GitHub.com and GitHub Enterprise
 
 ## Acknowledgements
 

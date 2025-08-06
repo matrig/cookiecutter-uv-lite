@@ -134,6 +134,9 @@ if __name__ == "__main__":
         remove_dir("docs")
         remove_file("mkdocs.yml")
 
+    if "{{cookiecutter.github_actions}}" != "y":
+        remove_dir(".github")
+
     # Create environment:
     print("Creating environment...")
     subprocess.run(["make", "install"], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603, S607
