@@ -129,7 +129,7 @@ if __name__ == "__main__":
     if "{{cookiecutter.git_repo}}" == "y":
         local_repo_created = create_local_git_repo()
         if local_repo_created:
-            print("Git repo was sucessfully created in {{cookiecutter.project_name}}")
+            print("Git repo was successfully created in {{cookiecutter.project_name}}")
 
     if "{{cookiecutter.git_repo}}" != "y" or not local_repo_created:
         print(HELP_LOCAL_REPO)
