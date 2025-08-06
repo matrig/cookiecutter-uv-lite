@@ -19,14 +19,17 @@ and running the following commands
 """
 
 HELP_REMOTE_REPO = """
-You can create a remote git repository on {{cookiecutter.git_server}} later by
-creating an empty git repository named {{cookiecutter.project_name}} on {{cookiecutter.git_server}}
-and then running the following commands
+You can set up a remote git repository on {{cookiecutter.git_server}} later by:
+
+1. Creating an empty repository named {{cookiecutter.project_name}} on {{cookiecutter.git_server}}
+2. Then running the following commands:
 
 >> cd {{cookiecutter.project_name}}
 >> git remote add origin git@{{cookiecutter.git_server}}:{{cookiecutter.author_username}}/{{cookiecutter.project_name}}.git
 >> git branch -M main
 >> git push -u origin main
+
+Note: This works with SSH authentication (no tokens needed if you have SSH keys set up).
 
 """
 
@@ -167,15 +170,33 @@ if __name__ == "__main__":
 
         remote_repo_created = False
         if ask_remote_repo == "y":
-            # Try to create repository using GitHub CLI (works with both github.com and enterprise)
-            github_repo_created = create_github_repo(
-                "{{cookiecutter.author_username}}", "{{cookiecutter.project_name}}"
-            )
+            # Ask if user wants to create a new repository or just add an existing one as remote
+            try:
+                create_repo = (
+                    input(
+                        "Do you want to CREATE a new repository on {{cookiecutter.git_server}} (requires GitHub CLI), or just ADD an existing repository as remote? [create/add]: "
+                    )
+                    .strip()
+                    .lower()
+                )
+            except EOFError:
+                create_repo = "add"
+                print("Non-interactive environment detected. Will try to add existing repository as remote.")
+
+            if create_repo.startswith("c"):  # "create"
+                # Try to create repository using GitHub CLI
+                github_repo_created = create_github_repo(
+                    "{{cookiecutter.author_username}}", "{{cookiecutter.project_name}}"
+                )
+            else:
+                print(
+                    "Skipping repository creation - assuming repository already exists on {{cookiecutter.git_server}}"
+                )
 
             # Set up remote repository (preferring SSH)
             remote_repo_created = add_remote_git_repo(use_ssh=True)
             if remote_repo_created:
-                print("Remote git repository was successfully created on {{cookiecutter.git_server}}")
+                print("Remote git repository connection was successfully set up on {{cookiecutter.git_server}}")
 
         if ask_remote_repo != "y" or not remote_repo_created:
             print(HELP_REMOTE_REPO)
