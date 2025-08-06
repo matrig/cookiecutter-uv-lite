@@ -136,18 +136,28 @@ if __name__ == "__main__":
 
     if "{{cookiecutter.git_repo}}" == "y" and local_repo_created:
         # Create remote git repository?
-        ask_remote_repo = (
-            input(
-                "Do you want to create a remote git repository {{cookiecutter.project_name}} on {{cookiecutter.git_server}}? (y/n): "
+        try:
+            ask_remote_repo = (
+                input(
+                    "Do you want to create a remote git repository {{cookiecutter.project_name}} on {{cookiecutter.git_server}}? (y/n): "
+                )
+                .strip()
+                .lower()
             )
-            .strip()
-            .lower()
-        )
+        except EOFError:
+            # Handle non-interactive environments (like automated testing)
+            ask_remote_repo = "n"
+            print("Non-interactive environment detected. Skipping remote repository creation.")
+
         if ask_remote_repo == "y":
-            if input("Do you have a GitHub token? (y/n): ").strip().lower() == "y":
-                token = input("Enter your GitHub token: ")
-            else:
+            try:
+                if input("Do you have a GitHub token? (y/n): ").strip().lower() == "y":
+                    token = input("Enter your GitHub token: ")
+                else:
+                    token = ""
+            except EOFError:
                 token = ""
+                print("Non-interactive environment detected. Using SSH authentication.")
 
             github_repo_created = create_github_repo(
                 "{{cookiecutter.author_username}}", "{{cookiecutter.project_name}}"
