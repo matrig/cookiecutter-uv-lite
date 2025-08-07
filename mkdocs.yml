@@ -13,6 +13,7 @@ nav:
       - Dependency management with uv: features/uv.md
       - Testing with Pytest: features/pytest.md
       - Documentation with MkDocs: features/mkdocs.md
+      - Linting and code quality: features/linting.md
       - Compatibility testing with Tox: features/tox.md
   - Tutorial: tutorial.md
   - Prompt Arguments: prompt_arguments.md
