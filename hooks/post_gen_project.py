@@ -81,16 +81,19 @@ def create_local_git_repo() -> bool:
         return True
 
 
-def create_github_repo(username: str, repo_name: str) -> bool:
+def create_github_repo(username: str, repo_name: str, is_private: bool = False) -> bool:
     """Create GitHub repository using GitHub CLI if available, otherwise skip."""
     try:
         # Set up environment for GitHub CLI to use the correct host
         env = os.environ.copy()
         env["GH_HOST"] = "{{cookiecutter.git_server}}"
 
+        # Determine visibility flag
+        visibility_flag = "--private" if is_private else "--public"
+
         # Try using GitHub CLI (works with both github.com and enterprise)
         subprocess.run(  # noqa: S603
-            [get_exec_path("gh"), "repo", "create", repo_name, "--public"],
+            [get_exec_path("gh"), "repo", "create", repo_name, visibility_flag],
             env=env,
             check=True,
         )
@@ -175,9 +178,28 @@ if __name__ == "__main__":
 
         remote_repo_created = False
         if ask_remote_repo == "y":
+            # Determine repository visibility
+            repo_is_private = "{{cookiecutter.private_repo}}" == "y"
+
+            # Ask user interactively for repository visibility preference
+            try:
+                ask_private_repo = (
+                    input(f"Should the repository be private? (y/n) [default: {'y' if repo_is_private else 'n'}]: ")
+                    .strip()
+                    .lower()
+                )
+                # Use user input if provided, otherwise use cookiecutter default
+                if ask_private_repo in ["y", "n"]:
+                    repo_is_private = ask_private_repo == "y"
+            except EOFError:
+                # Handle non-interactive environments
+                print(
+                    f"Non-interactive environment detected. Creating {'private' if repo_is_private else 'public'} repository."
+                )
+
             # Try to create repository using GitHub CLI (works with both github.com and enterprise)
             github_repo_created = create_github_repo(
-                "{{cookiecutter.author_username}}", "{{cookiecutter.project_name}}"
+                "{{cookiecutter.author_username}}", "{{cookiecutter.project_name}}", repo_is_private
             )
 
             # Set up remote repository (preferring SSH)
