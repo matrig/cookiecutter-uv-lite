@@ -415,6 +415,31 @@ def test_make_check_passes(baked_project, project_type):
         assert subprocess.check_call(shlex.split("uv run make check")) == 0
 
 
+@pytest.mark.parametrize("project_type", ["package", "cli", "notebooks"])
+def test_make_build_passes(baked_project, project_type):
+    """Test that make build successfully creates a wheel for all project types."""
+    result = baked_project(project_type=project_type, _needs_install=True)
+
+    # Build the wheel distribution (environment already installed by hook)
+    with run_within_dir(str(result.project_path)):
+        assert subprocess.check_call(shlex.split("uv run make build")) == 0
+        # Verify wheel was created
+        dist_dir = result.project_path / "dist"
+        assert dist_dir.exists()
+        wheel_files = list(dist_dir.glob("*.whl"))
+        assert len(wheel_files) == 1, "Should create exactly one wheel file"
+
+
+@pytest.mark.parametrize("project_type", ["package", "cli", "notebooks"])
+def test_make_docs_test_passes(baked_project, project_type):
+    """Test that make docs-test passes when mkdocs is enabled."""
+    result = baked_project(project_type=project_type, mkdocs="y", _needs_install=True)
+
+    # Test documentation build (environment already installed by hook)
+    with run_within_dir(str(result.project_path)):
+        assert subprocess.check_call(shlex.split("uv run make docs-test")) == 0
+
+
 # ============================================================================
 # Notebooks Project Type Tests
 # ============================================================================
@@ -537,6 +562,15 @@ def test_notebooks_sample_notebooks_content(baked_project):
     assert file_contains_text(str(viz_nb), "setup_plotting_style")
     assert file_contains_text(str(viz_nb), "from test_proj.utils import")
     assert file_contains_text(str(viz_nb), "Data Visualization")
+
+
+def test_make_test_notebooks_passes(baked_project):
+    """Test that make test-notebooks successfully executes notebooks with nbval."""
+    result = baked_project(project_type="notebooks", _needs_install=True)
+
+    # Test that notebooks execute without errors (environment already installed by hook)
+    with run_within_dir(str(result.project_path)):
+        assert subprocess.check_call(shlex.split("uv run make test-notebooks")) == 0
 
 
 @pytest.mark.parametrize(
