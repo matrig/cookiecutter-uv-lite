@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://matrig.github.io/minicookiecutter/</loc>
-         <lastmod>2025-08-07</lastmod>
+         <loc>https://matrig.github.io/cookiecutter-uv-lite/</loc>
+         <lastmod>2026-02-08</lastmod>
     </url>
     <url>
-         <loc>https://matrig.github.io/minicookiecutter/prompt_arguments/</loc>
-         <lastmod>2025-08-07</lastmod>
+         <loc>https://matrig.github.io/cookiecutter-uv-lite/prompt_arguments/</loc>
+         <lastmod>2026-02-08</lastmod>
     </url>
     <url>
-         <loc>https://matrig.github.io/minicookiecutter/tutorial/</loc>
-         <lastmod>2025-08-07</lastmod>
+         <loc>https://matrig.github.io/cookiecutter-uv-lite/tutorial/</loc>
+         <lastmod>2026-02-08</lastmod>
     </url>
     <url>
-         <loc>https://matrig.github.io/minicookiecutter/features/linting/</loc>
-         <lastmod>2025-08-07</lastmod>
+         <loc>https://matrig.github.io/cookiecutter-uv-lite/features/linting/</loc>
+         <lastmod>2026-02-08</lastmod>
     </url>
     <url>
-         <loc>https://matrig.github.io/minicookiecutter/features/makefile/</loc>
-         <lastmod>2025-08-07</lastmod>
+         <loc>https://matrig.github.io/cookiecutter-uv-lite/features/makefile/</loc>
+         <lastmod>2026-02-08</lastmod>
     </url>
     <url>
-         <loc>https://matrig.github.io/minicookiecutter/features/mkdocs/</loc>
-         <lastmod>2025-08-07</lastmod>
+         <loc>https://matrig.github.io/cookiecutter-uv-lite/features/mkdocs/</loc>
+         <lastmod>2026-02-08</lastmod>
     </url>
     <url>
-         <loc>https://matrig.github.io/minicookiecutter/features/pytest/</loc>
-         <lastmod>2025-08-07</lastmod>
+         <loc>https://matrig.github.io/cookiecutter-uv-lite/features/pytest/</loc>
+         <lastmod>2026-02-08</lastmod>
     </url>
     <url>
-         <loc>https://matrig.github.io/minicookiecutter/features/tox/</loc>
-         <lastmod>2025-08-07</lastmod>
+         <loc>https://matrig.github.io/cookiecutter-uv-lite/features/tox/</loc>
+         <lastmod>2026-02-08</lastmod>
     </url>
     <url>
-         <loc>https://matrig.github.io/minicookiecutter/features/uv/</loc>
-         <lastmod>2025-08-07</lastmod>
+         <loc>https://matrig.github.io/cookiecutter-uv-lite/features/uv/</loc>
+         <lastmod>2026-02-08</lastmod>
     </url>
 </urlset>
