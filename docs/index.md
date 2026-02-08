@@ -7,7 +7,7 @@
 
 ---
 
-This is a minimalistic Cookiecutter template that can be used to initiate a Python project. It supports the following features:
+A lightweight, modern Python project template using uv for blazing-fast dependency management. It supports the following features:
 
 - [uv](https://docs.astral.sh/uv/) for dependency management
 - Code quality with [ruff](https://github.com/charliermarsh/ruff), [mypy](https://mypy.readthedocs.io/en/stable/), [deptry](https://github.com/fpgmaas/deptry/) and [prettier](https://prettier.io/)
@@ -22,14 +22,14 @@ This is a minimalistic Cookiecutter template that can be used to initiate a Pyth
 On your local machine, navigate to the directory in which you want to create a project directory, and run the following command:
 
 ```bash
-uvx cookiecutter https://github.com/matrig/minicookiecutter.git
+uvx cookiecutter https://github.com/matrig/cookiecutter-uv-lite.git
 ```
 
 or if you don't have `uv` installed yet:
 
 ```bash
 pip install cookiecutter
-cookiecutter https://github.com/matrig/minicookiecutter.git
+cookiecutter https://github.com/matrig/cookiecutter-uv-lite.git
 ```
 
 Follow the prompts to configure your project. You'll be asked about:

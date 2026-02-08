@@ -1,7 +1,7 @@
 site_name: cookiecutter-uv-lite
-repo_url: https://github.com/matrig/minicookiecutter
-site_url: https://matrig.github.io/minicookiecutter
-site_description: A minimalist cookiecutter template for Python projects that use uv for its dependency management
+repo_url: https://github.com/matrig/cookiecutter-uv-lite
+site_url: https://matrig.github.io/cookiecutter-uv-lite
+site_description: A lightweight, modern Python project template using uv for blazing-fast dependency management
 site_author: Mattia Rigotti
 edit_uri: edit/main/docs/
 copyright: Maintained by Mattia Rigotti
@@ -48,7 +48,7 @@ theme:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/matrig/minicookiecutter
+      link: https://github.com/matrig/cookiecutter-uv-lite
 markdown_extensions:
   - toc:
       permalink: true
