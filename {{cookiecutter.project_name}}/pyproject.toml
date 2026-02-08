@@ -48,6 +48,7 @@ Documentation = "https://{{cookiecutter.author_username}}.github.io/{{cookiecutt
 dev = [
     "pytest>=7.2.0",{% if cookiecutter.github_actions == 'y' %}
     "pytest-cov>=4.0.0",{% endif %}
+    "pytest-xdist>=3.5.0",
     "ipython>=8.18.1",{% if cookiecutter.project_type != 'notebooks' %}
     "jupyterlab>=4.3.5",{% endif %}
     "pre-commit>=2.20.0",
