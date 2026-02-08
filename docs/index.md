@@ -7,7 +7,7 @@
 
 ---
 
-A lightweight, modern Python project template using uv for blazing-fast dependency management.
+A lightweight, modern Python project template for packages, CLIs, and notebooks — powered by uv.
 
 **Project Types:**
 

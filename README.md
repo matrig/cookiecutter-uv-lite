@@ -6,7 +6,7 @@
 [![Supported Python versions](https://img.shields.io/badge/python-3.9_%7C_3.10_%7C_3.11_%7C_3.12_%7C_3.13-blue?labelColor=grey&color=blue)](https://github.com/matrig/cookiecutter-uv-lite/blob/main/pyproject.toml)
 [![Docs](https://img.shields.io/badge/docs-gh--pages-blue)](https://matrig.github.io/cookiecutter-uv-lite/)
 
-A lightweight, modern Python project template using `uv` for blazing-fast dependency management.
+A lightweight, modern Python project template for packages, CLIs, and notebooks — powered by uv.
 
 **Choose your project type:**
 
