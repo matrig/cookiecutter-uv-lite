@@ -33,10 +33,39 @@ Note: This works with SSH authentication (no tokens needed if you have SSH keys 
 
 """
 
-END_MESSAGE = """
+END_MESSAGE_BASE = """
 The project {{cookiecutter.project_name}} has been created!
+"""
 
-Have fun!
+END_MESSAGE_PACKAGE = """
+Next steps:
+  • cd {{cookiecutter.project_name}}
+  • make test          # Run your tests
+  • make check         # Run code quality checks
+
+Have fun building your package!
+"""
+
+END_MESSAGE_CLI = """
+Next steps:
+  • cd {{cookiecutter.project_name}}
+  • make run           # Run your CLI app
+  • make test          # Run your tests
+
+Have fun building your CLI!
+"""
+
+END_MESSAGE_NOTEBOOKS = """
+Next steps:
+  • cd {{cookiecutter.project_name}}
+  • make jupyter       # Launch JupyterLab
+  • make test-notebooks # Test that notebooks execute
+
+Sample notebooks are in notebooks/:
+  • 01-exploratory.ipynb - Data exploration
+  • 02-visualization.ipynb - Plotting examples
+
+Have fun with your data science project!
 """
 
 
@@ -157,11 +186,21 @@ if __name__ == "__main__":
     if project_type == "cli":
         # Remove standard example.py, keep CLI
         remove_file("{{cookiecutter.project_name|lower|replace('-', '_')}}/example.py")
-    else:  # package type (default)
-        # Remove CLI file for package projects
+        remove_dir("notebooks")
+        remove_dir("data")
+    elif project_type == "notebooks":
+        # Remove example.py and cli.py, keep notebooks and data directories
+        remove_file("{{cookiecutter.project_name|lower|replace('-', '_')}}/example.py")
         cli_file = os.path.join(PROJECT_DIRECTORY, "{{cookiecutter.project_name|lower|replace('-', '_')}}", "cli.py")
         if os.path.exists(cli_file):
             remove_file("{{cookiecutter.project_name|lower|replace('-', '_')}}/cli.py")
+    else:  # package type (default)
+        # Remove CLI file and notebooks directories for package projects
+        cli_file = os.path.join(PROJECT_DIRECTORY, "{{cookiecutter.project_name|lower|replace('-', '_')}}", "cli.py")
+        if os.path.exists(cli_file):
+            remove_file("{{cookiecutter.project_name|lower|replace('-', '_')}}/cli.py")
+        remove_dir("notebooks")
+        remove_dir("data")
 
     # Create environment (skip in test mode for performance):
     skip_install = os.environ.get("COOKIECUTTER_SKIP_INSTALL", "").lower() == "true"
@@ -229,4 +268,11 @@ if __name__ == "__main__":
         if ask_remote_repo != "y" or not remote_repo_created:
             print(HELP_REMOTE_REPO)
 
-    print(END_MESSAGE)
+    # Print project-type-specific end message
+    print(END_MESSAGE_BASE)
+    if project_type == "cli":
+        print(END_MESSAGE_CLI)
+    elif project_type == "notebooks":
+        print(END_MESSAGE_NOTEBOOKS)
+    else:  # package
+        print(END_MESSAGE_PACKAGE)

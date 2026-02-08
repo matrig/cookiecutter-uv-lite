@@ -1,5 +1,5 @@
 {
-  "project_type": ["package", "cli"],
+  "project_type": ["package", "cli", "notebooks"],
   "project_name": "my-project",
   "project_description": "A minimal cookiecutter using uv for dependency management",
   "author": "Mattia Rigotti",

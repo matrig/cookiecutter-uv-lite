@@ -81,10 +81,27 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+*.ipynb_checkpoints
+*/.ipynb_checkpoints/*
 
 # IPython
 profile_default/
 ipython_config.py
+
+# Jupyter artifacts
+.jupyter/
+.local/share/jupyter/
+
+# Data files (uncomment as needed)
+# data/raw/*
+# data/processed/*
+# *.csv
+# *.parquet
+# *.h5
+
+# Large files
+*.pkl
+*.pickle
 
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow and github.com/pdm-project/pdm
 __pypackages__/

@@ -32,6 +32,23 @@ run: ## Run the CLI application (e.g., 'make run' or 'make run hello' or 'make r
 	@uv run {{cookiecutter.project_name}} $(if $(ARGS),$(ARGS),$(if $(RUN_ARGS),$(RUN_ARGS),--help))
 
 {% endif %}
+{% if cookiecutter.project_type == 'notebooks' %}
+.PHONY: jupyter
+jupyter: ## Start JupyterLab server
+	@echo "🚀 Starting JupyterLab..."
+	@uv run jupyter lab
+
+.PHONY: jupyter-notebook
+jupyter-notebook: ## Start Jupyter Notebook (classic interface)
+	@echo "🚀 Starting Jupyter Notebook..."
+	@uv run jupyter notebook
+
+.PHONY: test-notebooks
+test-notebooks: ## Test notebooks execute without errors
+	@echo "🚀 Testing notebooks with nbval..."
+	@uv run pytest --nbval notebooks/
+
+{% endif %}
 .PHONY: build
 build: clean-build ## Build wheel file
 	@echo "🚀 Creating wheel file"

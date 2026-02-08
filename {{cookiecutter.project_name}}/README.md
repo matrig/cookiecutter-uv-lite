@@ -32,6 +32,26 @@ make run
 uv run {{cookiecutter.project_name}} --help
 ```
 
+{% elif cookiecutter.project_type == 'notebooks' %}
+### 2. Start JupyterLab
+
+Launch JupyterLab:
+
+```bash
+make jupyter
+```
+
+Open the example notebooks in `notebooks/`:
+- `01-exploratory.ipynb`: Data exploration examples
+- `02-visualization.ipynb`: Plotting examples
+
+Your reusable code goes in `{{ package_name }}/utils.py`. Run tests with:
+
+```bash
+make test
+make test-notebooks  # Test that notebooks execute without errors
+```
+
 {% else %}
 ### 2. Start Development
 

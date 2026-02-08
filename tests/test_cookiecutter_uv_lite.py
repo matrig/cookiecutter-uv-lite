@@ -16,9 +16,9 @@ PACKAGE_NAME_PLACEHOLDER = "{{cookiecutter.project_name|lower|replace('-', '_')}
 # ============================================================================
 
 
-@pytest.mark.parametrize("project_type", ["package", "cli"])
+@pytest.mark.parametrize("project_type", ["package", "cli", "notebooks"])
 def test_bake_project(baked_project, project_type):
-    """Test basic project baking with custom name for both project types."""
+    """Test basic project baking with custom name for all project types."""
     result = baked_project(project_name="my-project", project_type=project_type)
     assert result.exception is None
     assert result.project_path.name == "my-project"
@@ -118,7 +118,7 @@ def test_codecov_integration(baked_project, codecov, github_actions, should_have
 # ============================================================================
 
 
-@pytest.mark.parametrize("project_type", ["package", "cli"])
+@pytest.mark.parametrize("project_type", ["package", "cli", "notebooks"])
 @pytest.mark.parametrize(
     "file_path,expected_contents",
     [
@@ -128,7 +128,7 @@ def test_codecov_integration(baked_project, codecov, github_actions, should_have
     ],
 )
 def test_config_file_content(baked_project, project_type, file_path, expected_contents):
-    """Test that configuration files contain expected content for both project types."""
+    """Test that configuration files contain expected content for all project types."""
     result = baked_project(project_type=project_type)
     config_file = result.project_path / file_path
 
@@ -161,7 +161,7 @@ def test_makefile_targets(baked_project, target, expected_content):
 # ============================================================================
 
 
-@pytest.mark.parametrize("project_type", ["package", "cli"])
+@pytest.mark.parametrize("project_type", ["package", "cli", "notebooks"])
 @pytest.mark.parametrize(
     "project_name,expected_package_name",
     [
@@ -172,7 +172,7 @@ def test_makefile_targets(baked_project, target, expected_content):
     ],
 )
 def test_package_name_derivation(baked_project, project_type, project_name, expected_package_name):
-    """Test that package names are correctly derived from project names for both types."""
+    """Test that package names are correctly derived from project names for all types."""
     result = baked_project(project_name=project_name, project_type=project_type)
 
     assert result.project_path.name == project_name
@@ -220,9 +220,9 @@ def test_mkdocs_dependencies(baked_project, mkdocs, should_have_mkdocs_deps):
     assert has_mkdocs == should_have_mkdocs_deps
 
 
-@pytest.mark.parametrize("project_type", ["package", "cli"])
+@pytest.mark.parametrize("project_type", ["package", "cli", "notebooks"])
 def test_pyproject_metadata(baked_project, project_type):
-    """Test that pyproject.toml contains correct project metadata for both types."""
+    """Test that pyproject.toml contains correct project metadata for all types."""
     result = baked_project(
         project_name="test-app",
         project_description="A test application",
@@ -239,6 +239,7 @@ def test_pyproject_metadata(baked_project, project_type):
     [
         ("package", "make test"),
         ("cli", "make run"),
+        ("notebooks", "make jupyter"),
     ],
 )
 def test_readme_content(baked_project, project_type, expected_content):
@@ -262,7 +263,7 @@ def test_readme_content(baked_project, project_type, expected_content):
 # ============================================================================
 
 
-@pytest.mark.parametrize("project_type", ["package", "cli"])
+@pytest.mark.parametrize("project_type", ["package", "cli", "notebooks"])
 @pytest.mark.parametrize(
     "features",
     [
@@ -274,7 +275,7 @@ def test_readme_content(baked_project, project_type, expected_content):
     ids=["all-features", "ci-only", "docs-only", "minimal"],
 )
 def test_feature_combinations(baked_project, project_type, features):
-    """Test that various feature combinations work with both project types."""
+    """Test that various feature combinations work with all project types."""
     result = baked_project(project_type=project_type, **features)
 
     # Verify features are correctly enabled/disabled
@@ -297,8 +298,17 @@ def test_feature_combinations(baked_project, project_type, features):
 @pytest.mark.parametrize(
     "project_type,expected_files,not_expected",
     [
-        ("package", ["{PACKAGE_NAME_PLACEHOLDER}/example.py"], ["{PACKAGE_NAME_PLACEHOLDER}/cli.py"]),
-        ("cli", ["{PACKAGE_NAME_PLACEHOLDER}/cli.py"], ["{PACKAGE_NAME_PLACEHOLDER}/example.py"]),
+        (
+            "package",
+            ["{PACKAGE_NAME_PLACEHOLDER}/example.py"],
+            ["{PACKAGE_NAME_PLACEHOLDER}/cli.py", "notebooks", "data"],
+        ),
+        ("cli", ["{PACKAGE_NAME_PLACEHOLDER}/cli.py"], ["{PACKAGE_NAME_PLACEHOLDER}/example.py", "notebooks", "data"]),
+        (
+            "notebooks",
+            ["{PACKAGE_NAME_PLACEHOLDER}/utils.py", "notebooks", "data"],
+            ["{PACKAGE_NAME_PLACEHOLDER}/example.py", "{PACKAGE_NAME_PLACEHOLDER}/cli.py"],
+        ),
     ],
 )
 def test_project_type_files(baked_project, project_type, expected_files, not_expected):
@@ -393,3 +403,149 @@ def test_project_type_with_pytest(baked_project, project_type):
     # Run the tests (environment already installed by hook)
     with run_within_dir(str(result.project_path)):
         assert subprocess.check_call(shlex.split("uv run pytest -v")) == 0
+
+
+# ============================================================================
+# Notebooks Project Type Tests
+# ============================================================================
+
+
+def test_notebooks_directory_structure(baked_project):
+    """Test that notebooks project has correct directory structure."""
+    result = baked_project(project_type="notebooks")
+
+    # Verify notebooks directory exists with sample notebooks
+    notebooks_dir = result.project_path / "notebooks"
+    assert notebooks_dir.is_dir()
+    assert (notebooks_dir / "README.md").is_file()
+    assert (notebooks_dir / "01-exploratory.ipynb").is_file()
+    assert (notebooks_dir / "02-visualization.ipynb").is_file()
+
+    # Verify data directory exists
+    data_dir = result.project_path / "data"
+    assert data_dir.is_dir()
+    assert (data_dir / "README.md").is_file()
+    assert (data_dir / ".gitkeep").is_file()
+
+
+def test_notebooks_dependencies(baked_project):
+    """Test that notebooks project has correct dependencies."""
+    result = baked_project(project_type="notebooks")
+    pyproject = result.project_path / "pyproject.toml"
+
+    # Check main dependencies
+    assert file_contains_text(str(pyproject), "jupyterlab>=4.0.0")
+    assert file_contains_text(str(pyproject), "pandas>=2.0.0")
+    assert file_contains_text(str(pyproject), "numpy>=1.24.0")
+    assert file_contains_text(str(pyproject), "matplotlib>=3.7.0")
+    assert file_contains_text(str(pyproject), "seaborn>=0.12.0")
+    assert file_contains_text(str(pyproject), "ipywidgets>=8.0.0")
+
+    # Check dev dependencies
+    assert file_contains_text(str(pyproject), "nbval>=0.10.0")
+    assert file_contains_text(str(pyproject), "nbconvert>=7.0.0")
+
+    # Verify jupyterlab is not in dev dependencies (it's in main dependencies)
+    pyproject_content = pyproject.read_text()
+    # Check that jupyterlab appears before [dependency-groups]
+    deps_section_idx = pyproject_content.find("dependencies = [")
+    dev_section_idx = pyproject_content.find("[dependency-groups]")
+    jupyterlab_idx = pyproject_content.find("jupyterlab>=4.0.0")
+    assert deps_section_idx < jupyterlab_idx < dev_section_idx
+
+
+def test_notebooks_makefile_targets(baked_project):
+    """Test that notebooks project has correct Makefile targets."""
+    result = baked_project(project_type="notebooks")
+    makefile = result.project_path / "Makefile"
+
+    # Check notebooks-specific targets exist
+    assert file_contains_text(str(makefile), "jupyter: ## Start JupyterLab server")
+    assert file_contains_text(str(makefile), "jupyter-notebook: ## Start Jupyter Notebook")
+    assert file_contains_text(str(makefile), "test-notebooks: ## Test notebooks execute without errors")
+
+    # Verify they use correct commands
+    assert file_contains_text(str(makefile), "uv run jupyter lab")
+    assert file_contains_text(str(makefile), "uv run jupyter notebook")
+    assert file_contains_text(str(makefile), "pytest --nbval notebooks/")
+
+    # CLI-specific target should not exist
+    assert not file_contains_text(str(makefile), "run: ## Run the CLI application")
+
+
+def test_notebooks_utils_module(baked_project):
+    """Test that notebooks project has utils.py with data science helpers."""
+    result = baked_project(project_type="notebooks", project_name="my-project")
+    utils_file = result.project_path / "my_project" / "utils.py"
+
+    assert utils_file.is_file()
+    assert file_contains_text(str(utils_file), "def load_sample_data()")
+    assert file_contains_text(str(utils_file), "def setup_plotting_style()")
+    assert file_contains_text(str(utils_file), "pd.DataFrame")
+
+
+def test_notebooks_gitignore_entries(baked_project):
+    """Test that notebooks project has notebook-specific gitignore entries."""
+    result = baked_project(project_type="notebooks")
+    gitignore = result.project_path / ".gitignore"
+
+    # Check notebook-specific patterns
+    assert file_contains_text(str(gitignore), "*.ipynb_checkpoints")
+    assert file_contains_text(str(gitignore), "*/.ipynb_checkpoints/*")
+    assert file_contains_text(str(gitignore), ".jupyter/")
+    assert file_contains_text(str(gitignore), "*.pkl")
+    assert file_contains_text(str(gitignore), "*.pickle")
+
+
+def test_notebooks_readme_instructions(baked_project):
+    """Test that notebooks README contains appropriate instructions."""
+    result = baked_project(project_type="notebooks", project_name="data-project")
+    readme = result.project_path / "README.md"
+
+    assert file_contains_text(str(readme), "make jupyter")
+    assert file_contains_text(str(readme), "01-exploratory.ipynb")
+    assert file_contains_text(str(readme), "02-visualization.ipynb")
+    assert file_contains_text(str(readme), "make test-notebooks")
+
+
+def test_notebooks_sample_notebooks_content(baked_project):
+    """Test that sample notebooks contain expected content."""
+    result = baked_project(project_type="notebooks", project_name="test-proj")
+
+    # Check exploratory notebook
+    exploratory_nb = result.project_path / "notebooks" / "01-exploratory.ipynb"
+    assert file_contains_text(str(exploratory_nb), "load_sample_data")
+    assert file_contains_text(str(exploratory_nb), "from test_proj.utils import")
+    assert file_contains_text(str(exploratory_nb), "Exploratory Data Analysis")
+    assert file_contains_text(str(exploratory_nb), "df.describe()")
+    assert file_contains_text(str(exploratory_nb), "df.groupby")
+
+    # Check visualization notebook
+    viz_nb = result.project_path / "notebooks" / "02-visualization.ipynb"
+    assert file_contains_text(str(viz_nb), "matplotlib.pyplot")
+    assert file_contains_text(str(viz_nb), "seaborn")
+    assert file_contains_text(str(viz_nb), "setup_plotting_style")
+    assert file_contains_text(str(viz_nb), "from test_proj.utils import")
+    assert file_contains_text(str(viz_nb), "Data Visualization")
+
+
+@pytest.mark.parametrize(
+    "project_type,should_have_notebooks_deps",
+    [
+        ("notebooks", True),
+        ("package", False),
+        ("cli", False),
+    ],
+)
+def test_notebooks_dependencies_only_in_notebooks_type(baked_project, project_type, should_have_notebooks_deps):
+    """Test that notebooks dependencies are only in notebooks projects."""
+    result = baked_project(project_type=project_type)
+    pyproject = result.project_path / "pyproject.toml"
+
+    has_pandas = file_contains_text(str(pyproject), "pandas>=")
+    has_matplotlib = file_contains_text(str(pyproject), "matplotlib>=")
+    has_nbval = file_contains_text(str(pyproject), "nbval>=")
+
+    assert has_pandas == should_have_notebooks_deps, f"pandas dependency for {project_type}"
+    assert has_matplotlib == should_have_notebooks_deps, f"matplotlib dependency for {project_type}"
+    assert has_nbval == should_have_notebooks_deps, f"pytest-nbval dependency for {project_type}"
