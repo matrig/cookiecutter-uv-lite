@@ -405,6 +405,16 @@ def test_project_type_with_pytest(baked_project, project_type):
         assert subprocess.check_call(shlex.split("uv run pytest -v")) == 0
 
 
+@pytest.mark.parametrize("project_type", ["package", "cli", "notebooks"])
+def test_make_check_passes(baked_project, project_type):
+    """Test that make check passes for all generated project types."""
+    result = baked_project(project_type=project_type, _needs_install=True)
+
+    # Run the full code quality checks (environment already installed by hook)
+    with run_within_dir(str(result.project_path)):
+        assert subprocess.check_call(shlex.split("uv run make check")) == 0
+
+
 # ============================================================================
 # Notebooks Project Type Tests
 # ============================================================================
