@@ -8,8 +8,10 @@ install: ## Install the virtual environment and install the pre-commit hooks
 check: ## Run code quality tools.
 	@echo "🚀 Checking lock file consistency with 'pyproject.toml'"
 	@uv lock --locked
-	@echo "🚀 Linting code: Running pre-commit"
-	@uv run pre-commit run -a
+	@if [ -d .git ]; then \
+		echo "🚀 Linting code: Running pre-commit"; \
+		uv run pre-commit run -a; \
+	fi
 	@echo "🚀 Static type checking: Running mypy"
 	@uv run mypy
 
@@ -18,6 +20,18 @@ test: ## Test the code with pytest
 	@echo "🚀 Testing code: Running pytest"
 	@uv run python -m pytest --doctest-modules
 
+{% if cookiecutter.project_type == 'cli' %}
+# Capture arguments for 'make run'
+ifeq (run,$(firstword $(MAKECMDGOALS)))
+  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  $(eval $(RUN_ARGS):;@:)
+endif
+
+.PHONY: run
+run: ## Run the CLI application (e.g., 'make run' or 'make run hello' or 'make run ARGS="hello --name Alice"')
+	@uv run {{cookiecutter.project_name}} $(if $(ARGS),$(ARGS),$(if $(RUN_ARGS),$(RUN_ARGS),--help))
+
+{% endif %}
 .PHONY: build
 build: clean-build ## Build wheel file
 	@echo "🚀 Creating wheel file"
