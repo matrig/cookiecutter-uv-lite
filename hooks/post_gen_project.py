@@ -151,9 +151,25 @@ if __name__ == "__main__":
     if "{{cookiecutter.github_actions}}" != "y":
         remove_dir(".github")
 
-    # Create environment:
-    print("Creating environment...")
-    subprocess.run(["make", "install"], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603, S607
+    # Handle project type specific cleanup
+    project_type = "{{cookiecutter.project_type}}"
+
+    if project_type == "cli":
+        # Remove standard example.py, keep CLI
+        remove_file("{{cookiecutter.project_name|lower|replace('-', '_')}}/example.py")
+    else:  # package type (default)
+        # Remove CLI file for package projects
+        cli_file = os.path.join(PROJECT_DIRECTORY, "{{cookiecutter.project_name|lower|replace('-', '_')}}", "cli.py")
+        if os.path.exists(cli_file):
+            remove_file("{{cookiecutter.project_name|lower|replace('-', '_')}}/cli.py")
+
+    # Create environment (skip in test mode for performance):
+    skip_install = os.environ.get("COOKIECUTTER_SKIP_INSTALL", "").lower() == "true"
+    if not skip_install:
+        print("Creating environment...")
+        subprocess.run(["make", "install"], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603, S607
+    else:
+        print("Skipping environment creation (test mode)")
 
     # Create local git repository?
     if "{{cookiecutter.git_repo}}" == "y":

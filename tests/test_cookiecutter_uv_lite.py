@@ -8,26 +8,28 @@ import pytest
 
 from tests.utils import file_contains_text, run_within_dir
 
+# Template placeholder for package_name derivation
+PACKAGE_NAME_PLACEHOLDER = "{{cookiecutter.project_name|lower|replace('-', '_')}}"
+
 # ============================================================================
 # Basic Project Generation Tests
 # ============================================================================
 
 
-def test_bake_project(baked_project):
-    """Test basic project baking with custom name."""
-    result = baked_project(project_name="my-project")
+@pytest.mark.parametrize("project_type", ["package", "cli"])
+def test_bake_project(baked_project, project_type):
+    """Test basic project baking with custom name for both project types."""
+    result = baked_project(project_name="my-project", project_type=project_type)
     assert result.exception is None
     assert result.project_path.name == "my-project"
 
 
-@pytest.mark.slow
 def test_using_pytest(baked_project):
     """Test that generated project can run its own tests."""
-    result = baked_project()
+    result = baked_project(_needs_install=True)
 
-    # Install the uv environment and run the tests
+    # Run the tests (environment already installed by hook)
     with run_within_dir(str(result.project_path)):
-        assert subprocess.check_call(shlex.split("uv sync")) == 0
         assert subprocess.check_call(shlex.split("uv run make test")) == 0
 
 
@@ -116,6 +118,7 @@ def test_codecov_integration(baked_project, codecov, github_actions, should_have
 # ============================================================================
 
 
+@pytest.mark.parametrize("project_type", ["package", "cli"])
 @pytest.mark.parametrize(
     "file_path,expected_contents",
     [
@@ -124,9 +127,9 @@ def test_codecov_integration(baked_project, codecov, github_actions, should_have
         ("tox.ini", ["[tox]"]),
     ],
 )
-def test_config_file_content(baked_project, file_path, expected_contents):
-    """Test that configuration files contain expected content."""
-    result = baked_project()
+def test_config_file_content(baked_project, project_type, file_path, expected_contents):
+    """Test that configuration files contain expected content for both project types."""
+    result = baked_project(project_type=project_type)
     config_file = result.project_path / file_path
 
     assert config_file.exists(), f"{file_path} should exist"
@@ -158,6 +161,7 @@ def test_makefile_targets(baked_project, target, expected_content):
 # ============================================================================
 
 
+@pytest.mark.parametrize("project_type", ["package", "cli"])
 @pytest.mark.parametrize(
     "project_name,expected_package_name",
     [
@@ -167,9 +171,9 @@ def test_makefile_targets(baked_project, target, expected_content):
         ("a-b-c-d", "a_b_c_d"),
     ],
 )
-def test_package_name_derivation(baked_project, project_name, expected_package_name):
-    """Test that package names are correctly derived from project names."""
-    result = baked_project(project_name=project_name)
+def test_package_name_derivation(baked_project, project_type, project_name, expected_package_name):
+    """Test that package names are correctly derived from project names for both types."""
+    result = baked_project(project_name=project_name, project_type=project_type)
 
     assert result.project_path.name == project_name
     package_dir = result.project_path / expected_package_name
@@ -216,11 +220,13 @@ def test_mkdocs_dependencies(baked_project, mkdocs, should_have_mkdocs_deps):
     assert has_mkdocs == should_have_mkdocs_deps
 
 
-def test_pyproject_metadata(baked_project):
-    """Test that pyproject.toml contains correct project metadata."""
+@pytest.mark.parametrize("project_type", ["package", "cli"])
+def test_pyproject_metadata(baked_project, project_type):
+    """Test that pyproject.toml contains correct project metadata for both types."""
     result = baked_project(
         project_name="test-app",
         project_description="A test application",
+        project_type=project_type,
     )
     pyproject = result.project_path / "pyproject.toml"
 
@@ -228,16 +234,27 @@ def test_pyproject_metadata(baked_project):
     assert file_contains_text(str(pyproject), "A test application")
 
 
-def test_readme_content(baked_project):
-    """Test that README contains project information."""
+@pytest.mark.parametrize(
+    "project_type,expected_content",
+    [
+        ("package", "make test"),
+        ("cli", "make run"),
+    ],
+)
+def test_readme_content(baked_project, project_type, expected_content):
+    """Test that README contains project-type-specific instructions."""
     result = baked_project(
         project_name="awesome-project",
         project_description="An awesome test project",
+        project_type=project_type,
     )
     readme = result.project_path / "README.md"
 
     assert readme.exists()
     assert file_contains_text(str(readme), "awesome-project")
+    assert file_contains_text(
+        str(readme), expected_content
+    ), f"README should contain '{expected_content}' for {project_type}"
 
 
 # ============================================================================
@@ -245,6 +262,7 @@ def test_readme_content(baked_project):
 # ============================================================================
 
 
+@pytest.mark.parametrize("project_type", ["package", "cli"])
 @pytest.mark.parametrize(
     "features",
     [
@@ -255,9 +273,9 @@ def test_readme_content(baked_project):
     ],
     ids=["all-features", "ci-only", "docs-only", "minimal"],
 )
-def test_feature_combinations(baked_project, features):
-    """Test that various feature combinations work correctly together."""
-    result = baked_project(**features)
+def test_feature_combinations(baked_project, project_type, features):
+    """Test that various feature combinations work with both project types."""
+    result = baked_project(project_type=project_type, **features)
 
     # Verify features are correctly enabled/disabled
     assert (result.project_path / ".github").is_dir() == (features["github_actions"] == "y")
@@ -269,3 +287,109 @@ def test_feature_combinations(baked_project, features):
     assert (result.project_path / "Makefile").is_file()
     assert (result.project_path / ".pre-commit-config.yaml").is_file()
     assert (result.project_path / "tests").is_dir()
+
+
+# ============================================================================
+# Project Type Tests (CLI)
+# ============================================================================
+
+
+@pytest.mark.parametrize(
+    "project_type,expected_files,not_expected",
+    [
+        ("package", ["{PACKAGE_NAME_PLACEHOLDER}/example.py"], ["{PACKAGE_NAME_PLACEHOLDER}/cli.py"]),
+        ("cli", ["{PACKAGE_NAME_PLACEHOLDER}/cli.py"], ["{PACKAGE_NAME_PLACEHOLDER}/example.py"]),
+    ],
+)
+def test_project_type_files(baked_project, project_type, expected_files, not_expected):
+    """Test correct files exist for each project type."""
+    result = baked_project(project_type=project_type)
+
+    for file_path in expected_files:
+        actual_path = file_path.replace("{PACKAGE_NAME_PLACEHOLDER}", result.project_path.name.replace("-", "_"))
+        full_path = result.project_path / actual_path
+        assert full_path.exists(), f"Expected {file_path} for {project_type}"
+
+    for file_path in not_expected:
+        actual_path = file_path.replace("{PACKAGE_NAME_PLACEHOLDER}", result.project_path.name.replace("-", "_"))
+        full_path = result.project_path / actual_path
+        assert not full_path.exists(), f"Did not expect {file_path} for {project_type}"
+
+
+@pytest.mark.parametrize(
+    "project_type,should_have_cli_deps",
+    [
+        ("cli", True),
+        ("package", False),
+    ],
+)
+def test_cli_dependencies(baked_project, project_type, should_have_cli_deps):
+    """Test CLI dependencies are present only in CLI projects."""
+    result = baked_project(project_type=project_type)
+    pyproject = result.project_path / "pyproject.toml"
+
+    has_typer = file_contains_text(str(pyproject), "typer")
+    has_rich = file_contains_text(str(pyproject), "rich")
+
+    assert has_typer == should_have_cli_deps, f"typer dependency for {project_type}"
+    assert has_rich == should_have_cli_deps, f"rich dependency for {project_type}"
+
+
+@pytest.mark.parametrize(
+    "project_type,has_scripts",
+    [
+        ("package", False),
+        ("cli", True),
+    ],
+)
+def test_cli_entry_point(baked_project, project_type, has_scripts):
+    """Test CLI projects have entry point configuration."""
+    result = baked_project(project_type=project_type)
+    pyproject = result.project_path / "pyproject.toml"
+
+    has_section = file_contains_text(str(pyproject), "[project.scripts]")
+    assert has_section == has_scripts
+
+
+@pytest.mark.parametrize(
+    "project_type,should_have_run_target",
+    [
+        ("cli", True),
+        ("package", False),
+    ],
+)
+def test_makefile_run_target(baked_project, project_type, should_have_run_target):
+    """Test run target is present only in CLI projects."""
+    result = baked_project(project_type=project_type)
+    makefile = result.project_path / "Makefile"
+
+    has_run_target = file_contains_text(str(makefile), "run: ## Run the CLI application")
+    assert has_run_target == should_have_run_target, f"run target for {project_type}"
+
+
+@pytest.mark.parametrize(
+    "project_type,expected_in_tests",
+    [
+        ("cli", "from typer.testing import CliRunner"),
+        ("package", "@pytest.mark.parametrize"),
+    ],
+)
+def test_project_type_test_content(baked_project, project_type, expected_in_tests):
+    """Test that generated test files contain type-appropriate content."""
+    result = baked_project(project_type=project_type)
+    test_file = result.project_path / "tests" / "test_example.py"
+
+    assert test_file.exists()
+    assert file_contains_text(
+        str(test_file), expected_in_tests
+    ), f"Test file should contain '{expected_in_tests}' for {project_type}"
+
+
+@pytest.mark.parametrize("project_type", ["package", "cli"])
+def test_project_type_with_pytest(baked_project, project_type):
+    """Test that both project types can run their own test suites."""
+    result = baked_project(project_type=project_type, _needs_install=True)
+
+    # Run the tests (environment already installed by hook)
+    with run_within_dir(str(result.project_path)):
+        assert subprocess.check_call(shlex.split("uv run pytest -v")) == 0
