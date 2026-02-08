@@ -1,6 +1,6 @@
 [project]
 name = "cookiecutter-uv-lite"
-version = "0.0.1"
+version = "0.1"
 description = "A lightweight, modern Python project template for packages, CLIs, and notebooks — powered by uv."
 authors = [{ name = "Mattia Rigotti" }]
 readme = "README.md"
