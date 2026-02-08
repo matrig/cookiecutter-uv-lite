@@ -1,10 +1,10 @@
 [project]
-name = "minicookiecutter"
+name = "cookiecutter-uv-lite"
 version = "0.0.1"
-description = "A python cookiecutter application to create a new python minimal project that uses uv to manage its dependencies."
+description = "A lightweight, modern Python project template using uv for blazing-fast dependency management."
 authors = [{ name = "Mattia Rigotti" }]
 readme = "README.md"
-keywords = ['cookiecutter', 'template', 'uv']
+keywords = ['cookiecutter', 'cookiecutter-template', 'cookiecutter-python', 'template', 'uv', 'python', 'project-template']
 requires-python = ">=3.9,<4.0"
 dependencies = [
   "cookiecutter>=2.1.1",
@@ -25,9 +25,9 @@ classifiers = [
 
 
 [project.urls]
-Repository = "https://github.com/matrig/minicookiecutter"
-Documentation = "https://matrig.github.io/minicookiecutter/"
-Homepage = "https://matrig.github.io/minicookiecutter/"
+Repository = "https://github.com/matrig/cookiecutter-uv-lite"
+Documentation = "https://matrig.github.io/cookiecutter-uv-lite/"
+Homepage = "https://matrig.github.io/cookiecutter-uv-lite/"
 
 [dependency-groups]
 dev = [
@@ -50,10 +50,10 @@ requires = ["setuptools >= 61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["minicookiecutter"]
+packages = ["cookiecutter_uv_lite"]
 
 [tool.setuptools.package-data]
-"minicookiecutter" = ["*"]
+"cookiecutter_uv_lite" = ["*"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -66,10 +66,10 @@ skip_empty = true
 
 [tool.coverage.run]
 branch = true
-source = ["minicookiecutter"]
+source = ["cookiecutter_uv_lite"]
 
 [tool.mypy]
-files = ['minicookiecutter']
+files = ['cookiecutter_uv_lite']
 disallow_untyped_defs = true
 disallow_any_unimported = true
 no_implicit_optional = true

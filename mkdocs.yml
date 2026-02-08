@@ -1,4 +1,4 @@
-site_name: minicookiecutter
+site_name: cookiecutter-uv-lite
 repo_url: https://github.com/matrig/minicookiecutter
 site_url: https://matrig.github.io/minicookiecutter
 site_description: A minimalist cookiecutter template for Python projects that use uv for its dependency management

@@ -1,4 +1,4 @@
-"""Shared pytest fixtures for minicookiecutter tests."""
+"""Shared pytest fixtures for cookiecutter-uv-lite tests."""
 
 from __future__ import annotations
 

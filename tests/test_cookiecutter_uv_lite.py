@@ -33,7 +33,7 @@ def test_using_pytest(baked_project):
 
 def test_cli_main():
     """Test the CLI main function."""
-    from minicookiecutter.cli import main
+    from cookiecutter_uv_lite.cli import main
 
     with patch("os.system") as mock_system:
         main()

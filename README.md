@@ -1,12 +1,12 @@
-# minicookiecutter
+# cookiecutter-uv-lite
 
 ---
 
-[![Build status](https://img.shields.io/github/actions/workflow/status/matrig/minicookiecutter/main.yml?branch=main)](https://github.com/matrig/minicookiecutter/actions/workflows/main.yml?query=branch%3Amain)
-[![Supported Python versions](https://img.shields.io/badge/python-3.9_%7C_3.10_%7C_3.11_%7C_3.12_%7C_3.13-blue?labelColor=grey&color=blue)](https://github.com/matrig/minicookiecutter/blob/main/pyproject.toml)
-[![Docs](https://img.shields.io/badge/docs-gh--pages-blue)](https://matrig.github.io/minicookiecutter/)
+[![Build status](https://img.shields.io/github/actions/workflow/status/matrig/cookiecutter-uv-lite/main.yml?branch=main)](https://github.com/matrig/cookiecutter-uv-lite/actions/workflows/main.yml?query=branch%3Amain)
+[![Supported Python versions](https://img.shields.io/badge/python-3.9_%7C_3.10_%7C_3.11_%7C_3.12_%7C_3.13-blue?labelColor=grey&color=blue)](https://github.com/matrig/cookiecutter-uv-lite/blob/main/pyproject.toml)
+[![Docs](https://img.shields.io/badge/docs-gh--pages-blue)](https://matrig.github.io/cookiecutter-uv-lite/)
 
-A minimalistic cookiecutter template for small python projects using `uv` for dependency management.
+A lightweight, modern Python project template using `uv` for blazing-fast dependency management.
 
 It supports the following features:
 
@@ -21,7 +21,7 @@ It supports the following features:
 ---
 
 <p align="center">
-  <a href="https://matrig.github.io/minicookiecutter/">Documentation</a>
+  <a href="https://matrig.github.io/cookiecutter-uv-lite/">Documentation</a>
 </p>
 
 ---
@@ -31,7 +31,7 @@ It supports the following features:
 On your local machine, navigate to the directory in which you want to create a project directory, and run the following command:
 
 ```bash
-uvx cookiecutter https://github.com/matrig/minicookiecutter.git
+uvx cookiecutter https://github.com/matrig/cookiecutter-uv-lite.git
 ```
 
 You'll be prompted to configure your project:
