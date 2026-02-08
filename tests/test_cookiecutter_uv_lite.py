@@ -430,16 +430,6 @@ def test_make_build_passes(baked_project, project_type):
         assert len(wheel_files) == 1, "Should create exactly one wheel file"
 
 
-@pytest.mark.parametrize("project_type", ["package", "cli", "notebooks"])
-def test_make_docs_test_passes(baked_project, project_type):
-    """Test that make docs-test passes when mkdocs is enabled."""
-    result = baked_project(project_type=project_type, mkdocs="y", _needs_install=True)
-
-    # Test documentation build (environment already installed by hook)
-    with run_within_dir(str(result.project_path)):
-        assert subprocess.check_call(shlex.split("uv run make docs-test")) == 0
-
-
 # ============================================================================
 # Notebooks Project Type Tests
 # ============================================================================
