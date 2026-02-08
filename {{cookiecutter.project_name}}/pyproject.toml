@@ -1,3 +1,4 @@
+{% set package_name = cookiecutter.project_name|lower|replace('-', '_') -%}
 [project]
 name = "{{cookiecutter.project_name}}"
 version = "0.0.1"
@@ -17,11 +18,22 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
     "Topic :: Software Development :: Libraries :: Python Modules",
 ]
+{% if cookiecutter.project_type == 'cli' %}
+dependencies = [
+    "typer>=0.15.0",
+    "rich>=13.9.0",
+]
+{% endif %}
 
 [project.urls]
 Homepage = "https://{{cookiecutter.author_username}}.github.io/{{cookiecutter.project_name}}/"
 Repository = "https://{{cookiecutter.git_server}}/{{cookiecutter.author_username}}/{{cookiecutter.project_name}}"
 Documentation = "https://{{cookiecutter.author_username}}.github.io/{{cookiecutter.project_name}}/"
+
+{% if cookiecutter.project_type == 'cli' %}
+[project.scripts]
+{{cookiecutter.project_name}} = "{{package_name}}.cli:app"
+{% endif %}
 
 [dependency-groups]
 dev = [
@@ -43,11 +55,11 @@ requires = ["setuptools >= 61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-packages = ["{{cookiecutter.package_name}}"]
+packages = ["{{package_name}}"]
 
 [tool.mypy]
 files = [
-    "{{cookiecutter.package_name}}"
+    "{{package_name}}"
 ]
 disallow_untyped_defs = true
 disallow_any_unimported = true

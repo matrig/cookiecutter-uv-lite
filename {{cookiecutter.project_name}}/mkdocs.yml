@@ -1,3 +1,4 @@
+{% set package_name = cookiecutter.project_name|lower|replace('-', '_') -%}
 site_name: {{cookiecutter.project_name}}
 repo_url: https://{{cookiecutter.git_server}}/{{cookiecutter.author_username}}/{{cookiecutter.project_name}}
 site_url: https://{{cookiecutter.author_username}}.github.io/{{cookiecutter.project_name}}
@@ -16,7 +17,7 @@ plugins:
       handlers:
         python:
           paths: [
-            "{{cookiecutter.package_name}}"
+            "{{package_name}}"
             ]
 theme:
   name: material

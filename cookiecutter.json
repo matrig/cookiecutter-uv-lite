@@ -1,10 +1,10 @@
 {
+  "project_type": ["package", "cli"],
+  "project_name": "my-project",
+  "project_description": "A minimal cookiecutter using uv for dependency management",
   "author": "Mattia Rigotti",
   "author_email": "",
   "author_username": "matrig",
-  "project_name": "my-project",
-  "package_name": "{{cookiecutter.project_name|lower|replace('-', '_')}}",
-  "project_description": "A minimal cookiecutter using uv for dependency management",
   "git_repo": ["y", "n"],
   "git_server": "github.com",
   "private_repo": ["y", "n"],

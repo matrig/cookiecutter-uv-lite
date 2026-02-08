@@ -1,3 +1,4 @@
+{% set package_name = cookiecutter.project_name|lower|replace('-', '_') -%}
 # {{cookiecutter.project_name}}
 
 {{cookiecutter.project_description}}
@@ -20,7 +21,28 @@ make install
 
 This will also generate your `uv.lock` file
 
-### 2. Commit the changes
+{% if cookiecutter.project_type == 'cli' %}
+### 2. Run Your CLI Application
+
+Run the CLI with:
+
+```bash
+make run
+# Or directly:
+uv run {{cookiecutter.project_name}} --help
+```
+
+{% else %}
+### 2. Start Development
+
+Your package code is in `{{package_name}}/`. Run tests with:
+
+```bash
+make test
+```
+
+{% endif %}
+### 3. Commit the changes
 
 Commit changes to your repository with
 

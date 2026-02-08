@@ -1,6 +1,7 @@
+{% set package_name = cookiecutter.project_name|lower|replace('-', '_') -%}
 from setuptools import find_packages, setup
 
 setup(
-    name="{{ cookiecutter.package_name }}",
+    name="{{ package_name }}",
     packages=find_packages(),
 )
