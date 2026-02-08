@@ -12,12 +12,13 @@ A lightweight, modern Python project template using `uv` for blazing-fast depend
 
 - 📦 **Package**: Python libraries and packages
 - 🚀 **CLI**: Command-line applications with [Typer](https://typer.tiangolo.com/) and [Rich](https://rich.readthedocs.io/)
+- 📊 **Notebooks**: Data science projects with [JupyterLab](https://jupyter.org/), [pandas](https://pandas.pydata.org/), and visualization tools
 
 **Features:**
 
 - [uv](https://docs.astral.sh/uv/) for dependency management
 - Code quality with [ruff](https://github.com/charliermarsh/ruff), [mypy](https://mypy.readthedocs.io/en/stable/), [deptry](https://github.com/fpgmaas/deptry/) and [prettier](https://prettier.io/)
-- Testing with [pytest](https://docs.pytest.org/en/7.1.x/)
+- Testing with [pytest](https://docs.pytest.org/en/7.1.x/) and [pytest-xdist](https://pytest-xdist.readthedocs.io/) for parallel execution
 - Documentation with [MkDocs](https://www.mkdocs.org/)
 - Compatibility testing for multiple versions of Python with [tox-uv](https://github.com/tox-dev/tox-uv)
 - **GitHub Actions CI/CD** with automated testing, documentation deployment, and security scanning
@@ -41,7 +42,7 @@ uvx cookiecutter https://github.com/matrig/cookiecutter-uv-lite.git
 
 You'll be prompted to configure your project (12 questions):
 
-1. **project_type**: Choose between `package` (library) or `cli` (command-line app)
+1. **project_type**: Choose between `package` (library), `cli` (command-line app), or `notebooks` (data science)
 2. **project_name**: Your project name (e.g., `my-awesome-project`)
 3. **project_description**: Short description of your project
 4. **author**: Your name
@@ -68,6 +69,16 @@ You'll be prompted to configure your project (12 questions):
 - Styled output with [Rich](https://rich.readthedocs.io/)
 - Executable entry point configured
 - `make run` command with argument support
+
+**📊 Notebooks** - Data science and analysis projects
+
+- [JupyterLab](https://jupyter.org/) for interactive development
+- Data science stack: [pandas](https://pandas.pydata.org/), [numpy](https://numpy.org/), [matplotlib](https://matplotlib.org/), [seaborn](https://seaborn.pydata.org/)
+- Sample notebooks with exploratory analysis and visualization examples
+- `notebooks/` directory for analysis, `data/` directory for datasets
+- Notebook testing with [nbval](https://nbval.readthedocs.io/)
+- Helper utilities module for reusable code
+- `make jupyter` to launch JupyterLab
 
 ## GitHub Actions Features
 

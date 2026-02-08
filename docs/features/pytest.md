@@ -1,6 +1,6 @@
 # Unittesting with Pytest
 
-[pytest](https://docs.pytest.org/en/7.1.x/) is automatically added to the environment.
+[pytest](https://docs.pytest.org/en/7.1.x/) is automatically added to the environment, along with [pytest-xdist](https://pytest-xdist.readthedocs.io/) for parallel test execution.
 
 ## Test Structure
 
@@ -22,6 +22,8 @@ Generated projects include example tests demonstrating pytest best practices:
 ```bash
 make test
 ```
+
+Tests automatically run in parallel using `pytest-xdist` (via `-n auto` flag), which distributes tests across available CPU cores for faster execution. This is especially beneficial as your test suite grows.
 
 ## Example Test Pattern
 

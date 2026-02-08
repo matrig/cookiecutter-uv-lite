@@ -7,11 +7,19 @@
 
 ---
 
-A lightweight, modern Python project template using uv for blazing-fast dependency management. It supports the following features:
+A lightweight, modern Python project template using uv for blazing-fast dependency management.
+
+**Project Types:**
+
+- 📦 **Package**: Python libraries and packages
+- 🚀 **CLI**: Command-line applications with Typer and Rich
+- 📊 **Notebooks**: Data science projects with JupyterLab, pandas, and visualization tools
+
+**Features:**
 
 - [uv](https://docs.astral.sh/uv/) for dependency management
 - Code quality with [ruff](https://github.com/charliermarsh/ruff), [mypy](https://mypy.readthedocs.io/en/stable/), [deptry](https://github.com/fpgmaas/deptry/) and [prettier](https://prettier.io/)
-- Testing with [pytest](https://docs.pytest.org/en/7.1.x/)
+- Testing with [pytest](https://docs.pytest.org/en/7.1.x/) and [pytest-xdist](https://pytest-xdist.readthedocs.io/) for parallel execution
 - Documentation with [MkDocs](https://www.mkdocs.org/)
 - Compatibility testing for multiple versions of Python with [tox-uv](https://github.com/tox-dev/tox-uv)
 - **GitHub Actions CI/CD** with automated testing, documentation deployment, and security scanning

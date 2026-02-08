@@ -4,6 +4,14 @@ When running the command `ccp` a prompt will start which enables you to configur
 
 ---
 
+**project_type**
+
+Choose the type of project to generate:
+
+- `"package"`: Python library/package for distribution. Includes example module with functions and is ready for PyPI publishing.
+- `"cli"`: Command-line application built with [Typer](https://typer.tiangolo.com/) and [Rich](https://rich.readthedocs.io/). Includes executable entry point and `make run` command.
+- `"notebooks"`: Data science project with [JupyterLab](https://jupyter.org/), [pandas](https://pandas.pydata.org/), [numpy](https://numpy.org/), [matplotlib](https://matplotlib.org/), and [seaborn](https://seaborn.pydata.org/). Includes sample notebooks for exploration and visualization, plus notebook testing with [nbval](https://nbval.readthedocs.io/).
+
 **author**
 
 Your full name.
