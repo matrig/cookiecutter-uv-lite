@@ -464,6 +464,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pre-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      pre-commit
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ruff" class="md-nav__link">
     <span class="md-ellipsis">
       ruff
@@ -579,6 +588,15 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#pre-commit" class="md-nav__link">
+    <span class="md-ellipsis">
+      pre-commit
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#ruff" class="md-nav__link">
     <span class="md-ellipsis">
       ruff
@@ -610,8 +628,22 @@
 <p>Code can be linted and quality-checked with the command</p>
 <pre><code class="language-bash">make check
 </code></pre>
-<p>Note that this requires the pre-commit hooks to be installed.</p>
 <p>This command will run the following tools:</p>
+<h2 id="pre-commit">pre-commit<a class="headerlink" href="#pre-commit" title="Permanent link">&para;</a></h2>
+<p>Generated projects include a <code>.pre-commit-config.yaml</code> file that configures git hooks to run checks before each commit. The hooks are automatically installed when you run <code>make install</code> (if inside a git repository).</p>
+<p>The pre-commit configuration includes:</p>
+<ul>
+<li>File hygiene checks (case conflicts, merge conflicts, trailing whitespace, end-of-file fixer)</li>
+<li>ruff linting and formatting</li>
+<li>prettier for non-Python files</li>
+</ul>
+<p>You can also run pre-commit manually:</p>
+<pre><code class="language-bash"># Run on all files
+make check
+
+# Run on staged files only
+uv run pre-commit run
+</code></pre>
 <h2 id="ruff">ruff<a class="headerlink" href="#ruff" title="Permanent link">&para;</a></h2>
 <p><a href="https://github.com/charliermarsh/ruff">ruff</a> is used to lint and format the code, and it is configured through <code>pyproject.toml</code>:</p>
 <pre><code>[tool.ruff]

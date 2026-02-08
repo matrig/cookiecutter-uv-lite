@@ -548,6 +548,13 @@
 <h1 id="prompt-arguments">Prompt arguments<a class="headerlink" href="#prompt-arguments" title="Permanent link">&para;</a></h1>
 <p>When running the command <code>ccp</code> a prompt will start which enables you to configure your repository. The prompt values and their explanation are as follows:</p>
 <hr />
+<p><strong>project_type</strong></p>
+<p>Choose the type of project to generate:</p>
+<ul>
+<li><code>"package"</code>: Python library/package for distribution. Includes example module with functions and is ready for PyPI publishing.</li>
+<li><code>"cli"</code>: Command-line application built with <a href="https://typer.tiangolo.com/">Typer</a> and <a href="https://rich.readthedocs.io/">Rich</a>. Includes executable entry point and <code>make run</code> command.</li>
+<li><code>"notebooks"</code>: Data science project with <a href="https://jupyter.org/">JupyterLab</a>, <a href="https://pandas.pydata.org/">pandas</a>, <a href="https://numpy.org/">numpy</a>, <a href="https://matplotlib.org/">matplotlib</a>, and <a href="https://seaborn.pydata.org/">seaborn</a>. Includes sample notebooks for exploration and visualization, plus notebook testing with <a href="https://nbval.readthedocs.io/">nbval</a>.</li>
+</ul>
 <p><strong>author</strong></p>
 <p>Your full name.</p>
 <p><strong>author_email</strong></p>
@@ -560,7 +567,7 @@ and it should only contain alphanumeric characters and <code>-</code>'s.</p>
 <p><strong>package_name</strong></p>
 <p>The package name, will default to the <code>project_name</code> with all <code>-</code>'s
 replaced with <code>_</code>. This will be how you import your code later, e.g.</p>
-<pre><code class="language-python">from &lt;package_nem&gt; import foo
+<pre><code class="language-python">from &lt;package_name&gt; import foo
 </code></pre>
 <p>Note: You can set <code>package_name</code> to <code>"src"</code> to place the Python module inside a <code>src</code> directory.</p>
 <p><strong>project_description</strong></p>
@@ -569,6 +576,8 @@ replaced with <code>_</code>. This will be how you import your code later, e.g.<
 <p><code>"y"</code> or <code>"n"</code>. Whether you want to create a local git repo for the project.</p>
 <p><strong>git_server</strong></p>
 <p>In case you want to use another git service than github, you can specify it here. The default is <code>github.com</code>.</p>
+<p><strong>private_repo</strong></p>
+<p><code>"y"</code> or <code>"n"</code>. Whether to create a private repository when creating a remote repository on GitHub. Only relevant if <code>git_repo</code> is set to <code>"y"</code> and you choose to create a remote repository.</p>
 <p><strong>mkdocs</strong></p>
 <p><code>"y"</code> or <code>"n"</code>. Adds <a href="https://www.mkdocs.org/">MkDocs</a>
 documentation to your project. This includes automatically parsing your docstrings and adding them to the documentation. Documentation will be deployed to the <code>gh-pages</code> branch.</p>

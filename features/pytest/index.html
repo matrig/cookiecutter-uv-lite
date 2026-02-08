@@ -381,6 +381,18 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Testing with Pytest
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         
   
@@ -391,6 +403,52 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#test-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Tests
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-test-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Test Pattern
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -532,6 +590,41 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#test-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      Test Structure
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#running-tests" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running Tests
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-test-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      Example Test Pattern
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -550,9 +643,36 @@
 
 
 <h1 id="unittesting-with-pytest">Unittesting with Pytest<a class="headerlink" href="#unittesting-with-pytest" title="Permanent link">&para;</a></h1>
-<p><a href="https://docs.pytest.org/en/7.1.x/">pytest</a> is automatically added to the environment.
-There will be a template unittest in the <code>tests</code> directory upon creation of the project, which can be run with</p>
+<p><a href="https://docs.pytest.org/en/7.1.x/">pytest</a> is automatically added to the environment, along with <a href="https://pytest-xdist.readthedocs.io/">pytest-xdist</a> for parallel test execution.</p>
+<h2 id="test-structure">Test Structure<a class="headerlink" href="#test-structure" title="Permanent link">&para;</a></h2>
+<p>Generated projects include example tests demonstrating pytest best practices:</p>
+<ul>
+<li>
+<p><strong><code>tests/test_example.py</code></strong> - Example tests showing:</p>
+</li>
+<li>
+<p>Basic assertions</p>
+</li>
+<li>Parametrized tests with <code>@pytest.mark.parametrize</code></li>
+<li>
+<p>Self-contained examples (don't depend on code that will be deleted)</p>
+</li>
+<li>
+<p><strong><code>tests/conftest.py</code></strong> - Shared test configuration:</p>
+</li>
+<li>Example fixtures (commented out, ready to uncomment)</li>
+<li>Custom pytest markers (<code>@pytest.mark.slow</code>, <code>@pytest.mark.integration</code>)</li>
+<li>Automatically discovered by pytest</li>
+</ul>
+<h2 id="running-tests">Running Tests<a class="headerlink" href="#running-tests" title="Permanent link">&para;</a></h2>
 <pre><code class="language-bash">make test
+</code></pre>
+<p>Tests automatically run in parallel using <code>pytest-xdist</code> (via <code>-n auto</code> flag), which distributes tests across available CPU cores for faster execution. This is especially beneficial as your test suite grows.</p>
+<h2 id="example-test-pattern">Example Test Pattern<a class="headerlink" href="#example-test-pattern" title="Permanent link">&para;</a></h2>
+<pre><code class="language-python">@pytest.mark.parametrize(&quot;value,expected&quot;, [(0, 0), (1, 1), (2, 4)])
+def test_parametrized_example(value, expected):
+    &quot;&quot;&quot;Example showing parametrized test.&quot;&quot;&quot;
+    assert value**2 == expected
 </code></pre>
 
 
