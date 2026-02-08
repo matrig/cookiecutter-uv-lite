@@ -27,7 +27,7 @@ The package name, will default to the `project_name` with all `-`'s
 replaced with `_`. This will be how you import your code later, e.g.
 
 ```python
-from <package_nem> import foo
+from <package_name> import foo
 ```
 
 Note: You can set `package_name` to `"src"` to place the Python module inside a `src` directory.
@@ -43,6 +43,10 @@ A short description of your project.
 **git_server**
 
 In case you want to use another git service than github, you can specify it here. The default is `github.com`.
+
+**private_repo**
+
+`"y"` or `"n"`. Whether to create a private repository when creating a remote repository on GitHub. Only relevant if `git_repo` is set to `"y"` and you choose to create a remote repository.
 
 **mkdocs**
 

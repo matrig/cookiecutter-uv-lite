@@ -6,9 +6,27 @@ Code can be linted and quality-checked with the command
 make check
 ```
 
-Note that this requires the pre-commit hooks to be installed.
-
 This command will run the following tools:
+
+## pre-commit
+
+Generated projects include a `.pre-commit-config.yaml` file that configures git hooks to run checks before each commit. The hooks are automatically installed when you run `make install` (if inside a git repository).
+
+The pre-commit configuration includes:
+
+- File hygiene checks (case conflicts, merge conflicts, trailing whitespace, end-of-file fixer)
+- ruff linting and formatting
+- prettier for non-Python files
+
+You can also run pre-commit manually:
+
+```bash
+# Run on all files
+make check
+
+# Run on staged files only
+uv run pre-commit run
+```
 
 ## ruff
 
