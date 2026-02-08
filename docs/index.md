@@ -30,14 +30,14 @@ A lightweight, modern Python project template for packages, CLIs, and notebooks 
 On your local machine, navigate to the directory in which you want to create a project directory, and run the following command:
 
 ```bash
-uvx cookiecutter https://github.com/matrig/cookiecutter-uv-lite.git
+uvx cookiecutter gh:matrig/cookiecutter-uv-lite
 ```
 
 or if you don't have `uv` installed yet:
 
 ```bash
 pip install cookiecutter
-cookiecutter https://github.com/matrig/cookiecutter-uv-lite.git
+cookiecutter gh:matrig/cookiecutter-uv-lite
 ```
 
 Follow the prompts to configure your project. You'll be asked about:

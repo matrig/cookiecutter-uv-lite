@@ -17,7 +17,7 @@ On your local machine, navigate to the directory in which you want to
 create a project directory, and run the following command:
 
 ```bash
-uvx cookiecutter https://github.com/matrig/cookiecutter-uv-lite.git
+uvx cookiecutter gh:matrig/cookiecutter-uv-lite
 ```
 
 For an explanation of the prompt arguments, see
