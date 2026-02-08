@@ -74,6 +74,9 @@ def create_local_git_repo() -> bool:
         # First commit:
         subprocess.run([get_exec_path("git"), "add", "."], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
         subprocess.run([get_exec_path("git"), "commit", "-m", "Initial commit"], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
+
+        # Install pre-commit hooks:
+        subprocess.run([get_exec_path("uv"), "run", "pre-commit", "install"], cwd=PROJECT_DIRECTORY, check=True)  # noqa: S603
     except subprocess.CalledProcessError as e:
         print(f"Error creating git repository: {e}")
         return False
