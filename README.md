@@ -8,7 +8,12 @@
 
 A lightweight, modern Python project template using `uv` for blazing-fast dependency management.
 
-It supports the following features:
+**Choose your project type:**
+
+- 📦 **Package**: Python libraries and packages
+- 🚀 **CLI**: Command-line applications with [Typer](https://typer.tiangolo.com/) and [Rich](https://rich.readthedocs.io/)
+
+**Features:**
 
 - [uv](https://docs.astral.sh/uv/) for dependency management
 - Code quality with [ruff](https://github.com/charliermarsh/ruff), [mypy](https://mypy.readthedocs.io/en/stable/), [deptry](https://github.com/fpgmaas/deptry/) and [prettier](https://prettier.io/)
@@ -34,12 +39,35 @@ On your local machine, navigate to the directory in which you want to create a p
 uvx cookiecutter https://github.com/matrig/cookiecutter-uv-lite.git
 ```
 
-You'll be prompted to configure your project:
+You'll be prompted to configure your project (12 questions):
 
-- **github_actions** [y/n]: Enable GitHub Actions CI/CD workflows
-- **codecov** [y/n]: Enable Codecov integration for coverage reporting
-- **mkdocs** [y/n]: Include MkDocs documentation setup
-- **git_repo** [y/n]: Initialize git repository and optionally create remote
+1. **project_type**: Choose between `package` (library) or `cli` (command-line app)
+2. **project_name**: Your project name (e.g., `my-awesome-project`)
+3. **project_description**: Short description of your project
+4. **author**: Your name
+5. **author_email**: Your email
+6. **author_username**: Your GitHub username
+7. **git_repo** [y/n]: Initialize git repository and optionally create remote on GitHub
+8. **git_server**: GitHub server (default: `github.com`, or your enterprise domain)
+9. **private_repo** [y/n]: Create private repository
+10. **mkdocs** [y/n]: Include MkDocs documentation
+11. **github_actions** [y/n]: Enable GitHub Actions CI/CD
+12. **codecov** [y/n]: Enable Codecov integration
+
+### Project Types
+
+**📦 Package** - Python libraries and packages
+
+- Includes example module with function
+- Standard package structure
+- Ready for PyPI publishing
+
+**🚀 CLI** - Command-line applications
+
+- Built with [Typer](https://typer.tiangolo.com/) (modern CLI framework)
+- Styled output with [Rich](https://rich.readthedocs.io/)
+- Executable entry point configured
+- `make run` command with argument support
 
 ## GitHub Actions Features
 
