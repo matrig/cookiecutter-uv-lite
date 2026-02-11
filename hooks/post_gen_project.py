@@ -239,22 +239,6 @@ if __name__ == "__main__":
             # Determine repository visibility
             repo_is_private = "{{cookiecutter.private_repo}}" == "y"
 
-            # Ask user interactively for repository visibility preference
-            try:
-                ask_private_repo = (
-                    input(f"Should the repository be private? (y/n) [default: {'y' if repo_is_private else 'n'}]: ")
-                    .strip()
-                    .lower()
-                )
-                # Use user input if provided, otherwise use cookiecutter default
-                if ask_private_repo in ["y", "n"]:
-                    repo_is_private = ask_private_repo == "y"
-            except EOFError:
-                # Handle non-interactive environments
-                print(
-                    f"Non-interactive environment detected. Creating {'private' if repo_is_private else 'public'} repository."
-                )
-
             # Try to create repository using GitHub CLI (works with both github.com and enterprise)
             github_repo_created = create_github_repo(
                 "{{cookiecutter.author_username}}", "{{cookiecutter.project_name}}", repo_is_private
