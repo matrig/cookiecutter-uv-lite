@@ -91,6 +91,9 @@ testpaths = ["tests"]
 target-version = "py311"
 line-length = 120
 fix = true
+{% if cookiecutter.project_type == 'notebooks' %}
+exclude = ["*.ipynb"]
+{% endif %}
 
 [tool.ruff.lint]
 select = [
