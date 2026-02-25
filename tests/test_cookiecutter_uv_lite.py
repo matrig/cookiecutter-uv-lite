@@ -494,6 +494,10 @@ def test_notebooks_makefile_targets(baked_project):
     assert file_contains_text(str(makefile), "uv run jupyter notebook")
     assert file_contains_text(str(makefile), "pytest --nbval notebooks/")
 
+    # Kernel registration should be in install target
+    assert file_contains_text(str(makefile), "ipykernel install --user")
+    assert file_contains_text(str(makefile), "PROJECT_NAME :=")
+
     # CLI-specific target should not exist
     assert not file_contains_text(str(makefile), "run: ## Run the CLI application")
 

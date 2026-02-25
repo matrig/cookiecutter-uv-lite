@@ -1,7 +1,13 @@
+PROJECT_NAME := {{cookiecutter.project_name}}
+
 .PHONY: install
 install: ## Install the virtual environment and install the pre-commit hooks
 	@echo "🚀 Creating virtual environment using uv"
 	@uv sync
+{% if cookiecutter.project_type == 'notebooks' %}
+	@echo "🚀 Registering Jupyter kernel for this project"
+	@uv run python -m ipykernel install --user --name $(PROJECT_NAME) --display-name "Python ($(PROJECT_NAME))"
+{% endif %}
 	@if [ -d .git ]; then uv run pre-commit install; fi
 
 .PHONY: check
